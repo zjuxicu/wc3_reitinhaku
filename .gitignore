@@ -1,0 +1,8 @@
+/reitinhaku/.gradle/
+.gradle
+build
+.classpath
+.history/
+.project
+.settings/
+bin
