@@ -1,21 +1,18 @@
-package reitinhaku.Kayttoliittyma;
+package reitinhaku.kayttoliittyma;
 
-import java.io.File;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Kartanlaturi {
 
     Scanner lukija;
-    // Kartta kartta;
     char[][] kartta;
 
     public Kartanlaturi() {
         //
     }
 
-    public void lataaKartta(String nimi) {
+    public char[][] lataaKartta(String nimi) {
 
         InputStream is = getClass().getClassLoader().getResourceAsStream(nimi + ".map");
         String rivitekstina = "";
@@ -26,7 +23,7 @@ public class Kartanlaturi {
         boolean tiedot = false;
 
         try {
-            Scanner lukija = new Scanner(is);
+            lukija = new Scanner(is);
 
             while (lukija.hasNextLine()) {
                 rivitekstina = lukija.nextLine();
@@ -40,8 +37,6 @@ public class Kartanlaturi {
                     tiedot = true;
                     kartta = new char[korkeus][leveys];
                     System.out.println("Kartta löytyi!");
-                    System.out.println("Kartan korkeus: " + korkeus);
-                    System.out.println("Kartan leveys: " + leveys);
 
                 }
                 if (tiedot && !rivitekstina.contains("map")) {
@@ -56,18 +51,13 @@ public class Kartanlaturi {
             }
             lukija.close();
 
-            System.out.println("Vasenta yläkulmaa vastaa 0,0 ja oikeaa alakulmaa " + rivi + "," + sarake);
+            System.out.println("Vasenta yläkulmaa vastaa 0,0 ja oikeaa alakulmaa " + (rivi - 1) + "," + (sarake - 1));
         } catch (Exception e) {
             System.out.println("Ongelma karttaa ladatessa: " + e);
+            System.exit(1);
         }
-        //tulostaKartta();
-    }
 
-    public void tulostaKartta() {
-        for (char[] rivi : kartta) {
-            System.out.println(Arrays.toString(rivi));
-
-        }
+        return kartta;
     }
 
 }
