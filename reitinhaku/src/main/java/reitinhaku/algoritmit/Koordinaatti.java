@@ -28,19 +28,25 @@ public class Koordinaatti {
         this.y = y;
         this.reitti = reitti;
     }
-    public double laskeReitinPituus(String reitti){
+
+    public double laskeReitinPituus(String reitti) {
+        if (reitti.length() == 0) {
+            return 0;
+        }
+
         double pituus = 0;
         String str[] = reitti.split(" ");
         for (int i = 0; i < str.length; i++) {
-            if(str[i].length() == 1){
+            if (str[i].length() == 1) {
                 pituus++;
-            } else{
-                pituus += Math.sqrt(1*1 + 1*1);
+            } else {
+                pituus += Math.sqrt(1 * 1 + 1 * 1);
             }
         }
-        System.out.print("Reitin pituus: ");
+
         return pituus;
     }
+
     public List<Koordinaatti> naapurit() {
         List<Koordinaatti> naapurit = new ArrayList<>();
         naapurit.add(new Koordinaatti(x + 1, y, reitti + "A "));

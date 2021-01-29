@@ -1,6 +1,7 @@
 package reitinhaku.kayttoliittyma;
 
 import reitinhaku.algoritmit.*;
+import reitinhaku.logiikka.*;
 
 /**
  * AlgoritminValitsija
@@ -10,7 +11,11 @@ public class AlgoritminValitsija {
 
     public AlgoritminValitsija(Kartta kartta) {
         this.kartta = kartta;
+        dijkstra();
 
+    }
+
+    public void dijkstra() {
         Dijkstra d = new Dijkstra();
         long aloitusAika = System.nanoTime();
         d.aloita(kartta);
@@ -18,7 +23,5 @@ public class AlgoritminValitsija {
         long kesto = (lopetusAika - aloitusAika);
         double sekuntit = ((double) kesto / 1000000000);
         System.out.println("Polun haussa kesti Dijkstralle " + kesto + "ns ~" + sekuntit + "s");
-
     }
-
 }
