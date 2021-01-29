@@ -24,7 +24,6 @@ public class Kartta {
         } else {
             System.out.println(
                     "Arvojen tulee olla väliltä: 0," + (taulukko.length - 1) + " ja 0," + (taulukko[0].length - 1));
-            System.exit(0);
         }
 
     }
@@ -36,7 +35,6 @@ public class Kartta {
         } else {
             System.out.println(
                     "Arvojen tulee olla väliltä: 0," + (taulukko.length - 1) + " ja 0," + (taulukko[0].length - 1));
-            System.exit(0);
         }
 
     }

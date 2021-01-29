@@ -57,7 +57,7 @@ public class Kayttoliittyma {
     }
 
     public void listaaKartat() {
-        File f = new File("reitinhaku/src/main/resources");
+        File f = new File("src/main/resources");
         File[] flista = f.listFiles();
         for (File file : flista) {
             System.out.println(file.getName());
