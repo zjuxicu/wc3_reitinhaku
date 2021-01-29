@@ -16,18 +16,18 @@ public class Kayttoliittyma {
         System.out.println("Kirjoita \"ohjeet\", jos haluat nähdä komennot ja ohjeet.");
         System.out.println("Valitse haluamasi kartta:");
         String kartannimi = lukija.nextLine();
-        if(kartannimi.equals("ohjeet")){
+        if (kartannimi.equals("ohjeet")) {
             ohjeet();
             System.out.println("Valitse haluamasi kartta:");
             kartannimi = lukija.nextLine();
         }
-        if (kartannimi.equals("lista")){
+        if (kartannimi.equals("lista")) {
             listaaKartat();
             System.out.println("Valitse haluamasi kartta:");
             kartannimi = lukija.nextLine();
         }
         Kartta kartta = new Kartta(laturi.lataaKartta(kartannimi), kartannimi);
-        
+
         System.out.println("Valitse haluamasi lähdön x-koordinaatti:  ");
         int xLahto = lukija.nextInt();
         System.out.println("Valitse haluamasi lähdön y-koordinaatti:  ");
@@ -40,17 +40,23 @@ public class Kayttoliittyma {
         int yMaali = lukija.nextInt();
         kartta.asetaMaali(xMaali, yMaali);
         System.out.println("--------------------------------------------------------------");
-        System.out.println("Haetaan reittiä kartasta " + kartannimi + " väliltä (" + xLahto + "," + yLahto + ") --> (" + xMaali + "," + yMaali +")");
+        System.out.println("Haetaan reittiä kartasta " + kartannimi + " väliltä (" + xLahto + "," + yLahto + ") --> ("
+                + xMaali + "," + yMaali + ")");
         System.out.println("Linnuntietä matka on ~" + kartta.linnuntie());
         System.out.println("--------------------------------------------------------------");
         AlgoritminValitsija av = new AlgoritminValitsija(kartta);
 
     }
+
     public void ohjeet(){
         System.out.println("Valitessasi karttaa, kirjoita kartannimi ilman .map-päätettä");
+        System.out.println("Toimivat arvot ovat esimerkiksi:" +
+        "\nthecrucible (400,250) -> (312,400)" +
+        "\nbootybay (96,55) -> (111,80)");
         System.out.println("Kirjoita \"lista\", jos haluat listauksen kaikista kartoista.");
     }
-    public void listaaKartat(){
+
+    public void listaaKartat() {
         File f = new File("reitinhaku/src/main/resources");
         File[] flista = f.listFiles();
         for (File file : flista) {
