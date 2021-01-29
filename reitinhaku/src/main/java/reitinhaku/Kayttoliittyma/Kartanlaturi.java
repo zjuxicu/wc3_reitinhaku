@@ -43,7 +43,7 @@ public class Kartanlaturi {
                     + (sarake - 1));
         } catch (Exception e) {
             System.out.println("Ongelma karttaa ladatessa: " + e);
-            System.exit(1);
+            System.exit(0);
         }
 
         return kartta;

@@ -50,9 +50,9 @@ public class Kayttoliittyma {
 
     public void ohjeet(){
         System.out.println("Valitessasi karttaa, kirjoita kartannimi ilman .map-päätettä");
-        System.out.println("Toimivat arvot ovat esimerkiksi:" +
-        "\nthecrucible (400,250) -> (312,400)" +
-        "\nbootybay (96,55) -> (111,80)");
+        System.out.println("Toimivat arvot ovat esimerkiksi:");
+        System.out.println("thecrucible (400,250) -> (312,400)");
+        System.out.println("bootybay (96,55) -> (111,80)");
         System.out.println("Kirjoita \"lista\", jos haluat listauksen kaikista kartoista.");
     }
 

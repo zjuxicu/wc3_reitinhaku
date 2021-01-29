@@ -14,6 +14,7 @@ public class Dijkstra {
     private int leveys;
     private double pituus;
     private String reitti;
+    private ArrayDeque<Koordinaatti> jono;
 
     public void alusta(Kartta kartta) {
         this.kartta = kartta;
@@ -23,6 +24,9 @@ public class Dijkstra {
         this.vierailtu = new boolean[korkeus][leveys];
         this.alku = new Koordinaatti(kartta.getAlkuX(), kartta.getAlkuY());
         this.maali = new Koordinaatti(kartta.getMaaliX(), kartta.getMaaliY());
+        jono = new ArrayDeque<>();
+        jono.add(alku);
+        vierailtu[alku.x][alku.y] = true;
 
     }
 
@@ -33,7 +37,7 @@ public class Dijkstra {
             System.out.println("Päästiin maaliin!");
             System.out.println("Reitti: " + reitti);
             System.out.println("Reitin pituus: " + pituus);
-            
+
         } else {
             System.out.println("Reittiä ei löytynyt, kokeile eri arvoja!");
         }
@@ -41,10 +45,6 @@ public class Dijkstra {
     }
 
     public boolean haku(Koordinaatti k) {
-        ArrayDeque<Koordinaatti> jono = new ArrayDeque<>();
-        jono.add(k);
-        vierailtu[k.x][k.y] = true;
-
         while (!jono.isEmpty()) {
             Koordinaatti n = jono.poll();
             if (n.x == maali.x && n.y == maali.y) {
@@ -57,15 +57,19 @@ public class Dijkstra {
                 continue;
             }
             for (Koordinaatti naapuri : n.naapurit()) {
-                if (kartta.rajojenSisalla(naapuri)) {
-                    if (vierailtu[naapuri.x][naapuri.y]) {
-                        continue;
-                    }
-                    jono.add(naapuri);
-                    vierailtu[naapuri.x][naapuri.y] = true;
-                }
+                tarkistaNaapuri(naapuri);
             }
         }
         return false;
+    }
+
+    public void tarkistaNaapuri(Koordinaatti naapuri) {
+        if (kartta.rajojenSisalla(naapuri)) {
+            if (vierailtu[naapuri.x][naapuri.y]) {
+                return;
+            }
+            jono.add(naapuri);
+            vierailtu[naapuri.x][naapuri.y] = true;
+        }
     }
 }
