@@ -13,7 +13,6 @@ public class Koordinaatti implements Comparator<Koordinaatti> {
     Koordinaatti vanhempi;
     Koordinaatti maali;
 
-
     public Koordinaatti(Koordinaatti maali) {
         this.maali = maali;
     }
@@ -33,12 +32,17 @@ public class Koordinaatti implements Comparator<Koordinaatti> {
         this.reitinPituus = matka;
     }
 
+    public Koordinaatti(int x, int y, Koordinaatti vanhempi) {
+        this.x = x;
+        this.y = y;
+        this.vanhempi = vanhempi;
+    }
+
     public Koordinaatti(int x, int y, String reitti) {
         this.x = x;
         this.y = y;
         this.reitti = reitti;
     }
-
 
     public double laskeReitinPituus(String reitti) {
         if (reitti.length() == 0) {
@@ -46,7 +50,7 @@ public class Koordinaatti implements Comparator<Koordinaatti> {
         }
         double pituus = 0;
         String str[] = reitti.split(" ");
-        double apu = Math.sqrt(1 * 1 + 1 * 1);
+        double apu = Math.sqrt(2);
         for (int i = 0; i < str.length; i++) {
             if (str[i].length() == 1) {
                 pituus++;
@@ -89,7 +93,7 @@ public class Koordinaatti implements Comparator<Koordinaatti> {
 
     public double laskeMatka(Koordinaatti k) {
         double x = k.x - maali.x;
-        double absx = x > 0 ? x : -x; 
+        double absx = x > 0 ? x : -x;
         double y = k.y - maali.y;
         double absy = y > 0 ? y : -y;
         return Math.sqrt(absx * absx + absy * absy);
