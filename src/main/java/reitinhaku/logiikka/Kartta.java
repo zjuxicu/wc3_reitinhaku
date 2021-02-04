@@ -39,16 +39,18 @@ public class Kartta {
 
     }
 
-    public int dX() {
-        return Math.abs(aX - mX);
+    public double dX(Koordinaatti a, Koordinaatti b) {
+        return Math.abs(a.getX() - b.getX());
     }
 
-    public int dY() {
-        return Math.abs(aY - mY);
+    public double dY(Koordinaatti a, Koordinaatti b) {
+        return Math.abs(a.getY() - b.getY());
     }
 
-    public double linnuntie() {
-        return Math.sqrt(dX() * dX() + dY() * dY());
+    public double linnuntie(Koordinaatti a, Koordinaatti b) {
+        double x = dX(a, b);
+        double y = dY(a, b);
+        return Math.sqrt(x * x + y * y);
     }
 
     public int getAlkuX() {

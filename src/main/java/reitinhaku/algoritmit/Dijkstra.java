@@ -41,7 +41,6 @@ public class Dijkstra {
         } else {
             System.out.println("Reittiä ei löytynyt, kokeile eri arvoja!");
         }
-        System.out.println("--------------------------------------------------------------");
     }
 
     public boolean haku(Koordinaatti k) {

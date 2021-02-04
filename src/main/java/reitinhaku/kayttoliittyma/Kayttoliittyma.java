@@ -3,6 +3,7 @@ package reitinhaku.kayttoliittyma;
 import java.util.Scanner;
 import java.io.File;
 
+import reitinhaku.algoritmit.Koordinaatti;
 import reitinhaku.logiikka.*;
 
 public class Kayttoliittyma {
@@ -40,15 +41,19 @@ public class Kayttoliittyma {
         int yMaali = lukija.nextInt();
         kartta.asetaMaali(xMaali, yMaali);
         System.out.println("--------------------------------------------------------------");
+        System.out.println();
         System.out.println("Haetaan reittiä kartasta " + kartannimi + " väliltä (" + xLahto + "," + yLahto + ") --> ("
                 + xMaali + "," + yMaali + ")");
-        System.out.println("Linnuntietä matka on ~" + kartta.linnuntie());
+        Koordinaatti lahto = new Koordinaatti(xLahto, yLahto);
+        Koordinaatti maali = new Koordinaatti(xMaali, yMaali);
+        System.out.println("Linnuntietä matka on ~" + kartta.linnuntie(lahto, maali));
+        System.out.println();
         System.out.println("--------------------------------------------------------------");
         AlgoritminValitsija av = new AlgoritminValitsija(kartta);
 
     }
 
-    public void ohjeet(){
+    public void ohjeet() {
         System.out.println("Valitessasi karttaa, kirjoita kartannimi ilman .map-päätettä");
         System.out.println("Toimivat arvot ovat esimerkiksi:");
         System.out.println("thecrucible (400,250) -> (312,400)");
