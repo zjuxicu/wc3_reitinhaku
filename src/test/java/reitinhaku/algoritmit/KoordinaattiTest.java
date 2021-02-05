@@ -23,7 +23,7 @@ public class KoordinaattiTest {
     Koordinaatti b;
 
     public KoordinaattiTest() {
-        
+
     }
 
     @Before
@@ -31,18 +31,18 @@ public class KoordinaattiTest {
         laturi = new Kartanlaturi();
         String testikartannimi = "testi";
         testikartta = new Kartta(laturi.lataaKartta(testikartannimi), testikartannimi);
-        a = new Koordinaatti(1,10);
+        a = new Koordinaatti(1, 10);
         b = new Koordinaatti(2, 10, a);
     }
 
     @Test
-    public void vanhempiLoytyy(){
+    public void vanhempiLoytyy() {
         assertNull(a.getVanhempi());
         assertEquals(a, b.getVanhempi());
     }
 
     @Test
-    public void reittiKasvaaLomittain(){
+    public void reittiKasvaaLomittain() {
         assertEquals("", a.reitti);
         assertEquals(0.0, a.laskeReitinPituus(a.reitti), 0.00001);
         a = new Koordinaatti(a.getX(), a.getY(), a.reitti + "AO ");
@@ -50,8 +50,9 @@ public class KoordinaattiTest {
         assertEquals(1.414213, a.laskeReitinPituus(a.reitti), 0.00001);
 
     }
+
     @Test
-    public void reittiKasvaaSuoraan(){
+    public void reittiKasvaaSuoraan() {
         assertEquals("", a.reitti);
         assertEquals(0.0, a.laskeReitinPituus(a.reitti), 0.00001);
         a = new Koordinaatti(a.getX(), a.getY(), a.reitti + "A ");
@@ -59,17 +60,19 @@ public class KoordinaattiTest {
         assertEquals(1.0, a.laskeReitinPituus(a.reitti), 0.00001);
 
     }
+
     @Test
-    public void naapuritLoytyy(){
+    public void naapuritLoytyy() {
         List<Koordinaatti> ykkosenNaapurit = new ArrayList<>();
         ykkosenNaapurit.add(new Koordinaatti(2, 1));
-        ykkosenNaapurit.add(new Koordinaatti(2, 2));
-        ykkosenNaapurit.add(new Koordinaatti(2, 0));
         ykkosenNaapurit.add(new Koordinaatti(0, 1));
-        ykkosenNaapurit.add(new Koordinaatti(0, 2));
-        ykkosenNaapurit.add(new Koordinaatti(0, 0));
         ykkosenNaapurit.add(new Koordinaatti(1, 2));
         ykkosenNaapurit.add(new Koordinaatti(1, 0));
+        ykkosenNaapurit.add(new Koordinaatti(2, 2));
+        ykkosenNaapurit.add(new Koordinaatti(2, 0));
+        ykkosenNaapurit.add(new Koordinaatti(0, 2));
+        ykkosenNaapurit.add(new Koordinaatti(0, 0));
+
         Koordinaatti n = new Koordinaatti(1, 1);
         int i = 0;
         for (Koordinaatti koordinaatti : n.naapurit()) {

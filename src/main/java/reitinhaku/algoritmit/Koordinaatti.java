@@ -65,13 +65,14 @@ public class Koordinaatti implements Comparator<Koordinaatti> {
     public List<Koordinaatti> naapurit() {
         List<Koordinaatti> naapurit = new ArrayList<>();
         naapurit.add(new Koordinaatti(x + 1, y, reitti + "A "));
-        naapurit.add(new Koordinaatti(x + 1, y + 1, reitti + "AO "));
-        naapurit.add(new Koordinaatti(x + 1, y - 1, reitti + "AV "));
         naapurit.add(new Koordinaatti(x - 1, y, reitti + "Y "));
-        naapurit.add(new Koordinaatti(x - 1, y + 1, reitti + "YO "));
-        naapurit.add(new Koordinaatti(x - 1, y - 1, reitti + "YV "));
         naapurit.add(new Koordinaatti(x, y + 1, reitti + "O "));
         naapurit.add(new Koordinaatti(x, y - 1, reitti + "V "));
+        naapurit.add(new Koordinaatti(x + 1, y + 1, reitti + "AO "));
+        naapurit.add(new Koordinaatti(x + 1, y - 1, reitti + "AV "));
+        naapurit.add(new Koordinaatti(x - 1, y + 1, reitti + "YO "));
+        naapurit.add(new Koordinaatti(x - 1, y - 1, reitti + "YV "));
+
         return naapurit;
     }
 

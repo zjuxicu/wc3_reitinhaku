@@ -33,19 +33,40 @@ public class Kayttoliittyma {
         int xLahto = lukija.nextInt();
         System.out.println("Valitse haluamasi lähdön y-koordinaatti:  ");
         int yLahto = lukija.nextInt();
-        kartta.asetaLahto(xLahto, yLahto);
+        while (!kartta.asetaLahto(xLahto, yLahto)) {
+            System.out.println("Valitse haluamasi lähdön x-koordinaatti:  ");
+            xLahto = lukija.nextInt();
+            System.out.println("Valitse haluamasi lähdön y-koordinaatti:  ");
+            yLahto = lukija.nextInt();
+        }
 
         System.out.println("Valitse haluamasi maalin x-koordinaatti:  ");
         int xMaali = lukija.nextInt();
         System.out.println("Valitse haluamasi maalin y-koordinaatti:  ");
         int yMaali = lukija.nextInt();
-        kartta.asetaMaali(xMaali, yMaali);
+        while (!kartta.asetaMaali(xMaali, yMaali)) {
+            System.out.println("Valitse haluamasi maalin x-koordinaatti:  ");
+            xMaali = lukija.nextInt();
+            System.out.println("Valitse haluamasi maalin y-koordinaatti:  ");
+            yMaali = lukija.nextInt();
+        }
+
         System.out.println("--------------------------------------------------------------");
         System.out.println();
-        System.out.println("Haetaan reittiä kartasta " + kartannimi + " väliltä (" + xLahto + "," + yLahto + ") --> ("
-                + xMaali + "," + yMaali + ")");
         Koordinaatti lahto = new Koordinaatti(xLahto, yLahto);
         Koordinaatti maali = new Koordinaatti(xMaali, yMaali);
+        if(!kartta.rajojenSisalla(lahto)){
+            System.out.println("Lähtökoordinaatti ei ole kartan rajojen sisällä.");
+            System.exit(0);
+        }
+        if(!kartta.rajojenSisalla(maali)){
+            System.out.println("Maalikoordinaatti ei ole kartan rajojen sisällä.");
+            System.exit(0); 
+        }
+        
+        System.out.println("Haetaan reittiä kartasta " + kartannimi + " väliltä (" + xLahto + "," + yLahto + ") --> ("
+                + xMaali + "," + yMaali + ")");
+
         System.out.println("Linnuntietä matka on ~" + kartta.linnuntie(lahto, maali));
         System.out.println();
         System.out.println("--------------------------------------------------------------");

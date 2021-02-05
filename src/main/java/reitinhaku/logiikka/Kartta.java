@@ -17,24 +17,28 @@ public class Kartta {
         this.nimi = nimi;
     }
 
-    public void asetaLahto(int aX, int aY) {
+    public boolean asetaLahto(int aX, int aY) {
         if (aX < taulukko.length && aX >= 0 && aY < taulukko[0].length && aY >= 0) {
             this.aX = aX;
             this.aY = aY;
+            return true;
         } else {
             System.out.println(
                     "Arvojen tulee olla väliltä: 0," + (taulukko.length - 1) + " ja 0," + (taulukko[0].length - 1));
+            return false;
         }
 
     }
 
-    public void asetaMaali(int mX, int mY) {
+    public boolean asetaMaali(int mX, int mY) {
         if (mX < taulukko.length && mX >= 0 && mY < taulukko[0].length && mY >= 0) {
             this.mX = mX;
             this.mY = mY;
+            return true;
         } else {
             System.out.println(
                     "Arvojen tulee olla väliltä: 0," + (taulukko.length - 1) + " ja 0," + (taulukko[0].length - 1));
+            return false;
         }
 
     }
