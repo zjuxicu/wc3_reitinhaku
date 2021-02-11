@@ -10,6 +10,13 @@ public class Kayttoliittyma {
 
     private static Scanner lukija;
 
+    /**
+     * Käyttöliittymä
+     * 
+     * Käyttöliittymän kautta tapahtuu kartan ja tutkittavien koordinaattien
+     * valinta. Mahdollisuus on myös tulostaa ohjeet ja listaus saatavilla olevista
+     * kartoista.
+     */
     public Kayttoliittyma() {
 
         lukija = new Scanner(System.in);
@@ -55,15 +62,15 @@ public class Kayttoliittyma {
         System.out.println();
         Koordinaatti lahto = new Koordinaatti(xLahto, yLahto);
         Koordinaatti maali = new Koordinaatti(xMaali, yMaali);
-        if(!kartta.rajojenSisalla(lahto)){
+        if (!kartta.rajojenSisalla(lahto)) {
             System.out.println("Lähtökoordinaatti ei ole kartan rajojen sisällä.");
             System.exit(0);
         }
-        if(!kartta.rajojenSisalla(maali)){
+        if (!kartta.rajojenSisalla(maali)) {
             System.out.println("Maalikoordinaatti ei ole kartan rajojen sisällä.");
-            System.exit(0); 
+            System.exit(0);
         }
-        
+
         System.out.println("Haetaan reittiä kartasta " + kartannimi + " väliltä (" + xLahto + "," + yLahto + ") --> ("
                 + xMaali + "," + yMaali + ")");
 
@@ -74,6 +81,9 @@ public class Kayttoliittyma {
 
     }
 
+    /**
+     * Tulostaa ohjeet ja tarjoaa muutamat esimerkkiarvot.
+     */
     public void ohjeet() {
         System.out.println("Valitessasi karttaa, kirjoita kartannimi ilman .map-päätettä");
         System.out.println("Toimivat arvot ovat esimerkiksi:");
@@ -82,6 +92,9 @@ public class Kayttoliittyma {
         System.out.println("Kirjoita \"lista\", jos haluat listauksen kaikista kartoista.");
     }
 
+    /**
+     * Tulostaa listauksen saatavilla olevista kartoista.
+     */
     public void listaaKartat() {
         File f = new File("src/main/resources");
         File[] flista = f.listFiles();

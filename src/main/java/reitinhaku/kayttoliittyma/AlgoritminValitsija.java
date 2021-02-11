@@ -5,10 +5,18 @@ import reitinhaku.logiikka.*;
 
 /**
  * AlgoritminValitsija
+ * 
+ * Osa käyttöliittymää.
  */
 public class AlgoritminValitsija {
     private Kartta kartta;
 
+    /**
+     * Käyttöliittymä antaa AlgoritminValitsijalle käyttäjän valitseman kartan ja
+     * konstruktori käynnistää eri algoritmit.
+     * 
+     * @param kartta Käyttäjän valitsema kartta.
+     */
     public AlgoritminValitsija(Kartta kartta) {
         this.kartta = kartta;
         System.out.println("Etsitään reittiä Dijkstran algoritmillä.");
@@ -22,6 +30,9 @@ public class AlgoritminValitsija {
 
     }
 
+    /**
+     * Suorittaa reitinhaun Dijkstran algoritmillä ja ilmoittaa kuluneen ajan.
+     */
     public void dijkstra() {
         Dijkstra d = new Dijkstra();
         long aloitusAika = System.nanoTime();
@@ -31,6 +42,10 @@ public class AlgoritminValitsija {
         double sekuntit = ((double) kesto / 1000000000);
         System.out.println("Polun haussa kesti Dijkstralle " + kesto + "ns ~" + sekuntit + "s");
     }
+
+    /**
+     * Suorittaa reitinhaun A* algoritmillä ja ilmoittaa kuluneen ajan.
+     */
     public void astar() {
         Astar a = new Astar();
         long aloitusAika = System.nanoTime();

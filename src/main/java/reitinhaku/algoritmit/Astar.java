@@ -4,6 +4,9 @@ import java.util.PriorityQueue;
 
 import reitinhaku.logiikka.Kartta;
 
+/**
+ * Lyhyimmän reitin haku A*-algoritmillä.
+ */
 public class Astar {
 
     private Koordinaatti alku;
@@ -17,6 +20,11 @@ public class Astar {
     private String reitti;
     private PriorityQueue<Koordinaatti> jono;
 
+    /**
+     * Alustaa tarvittavat arvot algoritmin suorittamiseksi.
+     * 
+     * @param kartta Käyttäjän valitsema kartta.
+     */
     public void alusta(Kartta kartta) {
         this.kartta = kartta;
         this.taulukko = kartta.getTaulukko();
@@ -26,13 +34,19 @@ public class Astar {
         this.leveys = taulukko[0].length;
         this.vierailtu = new boolean[korkeus][leveys];
         jono = new PriorityQueue<>(new Koordinaatti(maali));
-        jono.add(new Koordinaatti(alku, null, 0));
+        jono.add(new Koordinaatti(alku.getX(), alku.getY(), null, 0));
     }
 
+    /**
+     * Algoritmin valitsijan kutsuma metodi, joka ensin alustaa kartan arvot ja
+     * suorittaa itse algoritmin ja ilmoittaa käyttäjälle tuloksen.
+     * 
+     * @param kartta Käyttäjän valitsema kartta.
+     */
     public void aloita(Kartta kartta) {
         alusta(kartta);
 
-        if (haku(alku)) {
+        if (haku()) {
             System.out.println("Päästiin maaliin!");
             System.out.println("Reitti: " + reitti);
             System.out.println("Reitin pituus: " + pituus);
@@ -42,60 +56,96 @@ public class Astar {
         }
     }
 
-    public boolean haku(Koordinaatti k) {
+    /**
+     * Haku suoritetaan käyttämällä A*-algoritmiä.
+     * 
+     * @return boolean Palauttaa arvon löytyikö reittiä vai ei.
+     */
+    public boolean haku() {
         while (!jono.isEmpty()) {
             Koordinaatti n = jono.poll();
-            char ch = taulukko[n.x][n.y];
+            int x = n.getX();
+            int y = n.getY();
+            char ch = taulukko[x][y];
             if (ch == '@' || ch == 'O') { // nyt vain out of boundsit rajana
                 continue;
             }
             this.reitti = kirjaaReitti(n);
-            if (n.x == maali.x && n.y == maali.y) {
-                this.pituus = n.reitinPituus;
+            if (x == maali.getX() && y == maali.getY()) {
+                this.pituus = n.getReitinPituus();
                 return true;
             }
 
             for (Koordinaatti naapuri : n.naapurit()) {
                 if (kartta.rajojenSisalla(naapuri)) {
-                    if (vierailtu[naapuri.x][naapuri.y]) {
+                    int nx = naapuri.getX();
+                    int ny = naapuri.getY();
+                    if (vierailtu[nx][ny]) {
                         continue;
                     }
-                    vierailtu[naapuri.x][naapuri.y] = true;
-                    double pituus = n.reitinPituus + kartta.linnuntie(naapuri, n);
-                    jono.add(new Koordinaatti(naapuri, n, pituus));
+                    vierailtu[nx][ny] = true;
+                    double pituus = n.getReitinPituus() + kartta.linnuntie(naapuri, n);
+                    jono.add(new Koordinaatti(nx, ny, n, pituus));
                 }
             }
         }
         return false;
     }
 
+    /**
+     * Ylläpitää Koordinaatin "reitti"-arvoa. Metodi kirjaa tarvittavan siirtymän
+     * Koordinaatin vanhemmasta.
+     * 
+     * @param n Koordinaatti, jonka reitti päivitetään.
+     * @return String Palauttaa päivitetyn reitin.
+     */
     public String kirjaaReitti(Koordinaatti n) {
-        if (n.vanhempi == null) {
+        Koordinaatti v;
+        int nx;
+        int ny;
+        int vx;
+        int vy;
+        if (n.getVanhempi() == null) {
             return "";
+        } else {
+            v = n.getVanhempi();
+            nx = n.getX();
+            ny = n.getY();
+            vx = v.getX();
+            vy = v.getY();
         }
-        if (n.x == n.vanhempi.x && n.y < n.vanhempi.y) {
-            return reitti + "V ";
+        if (nx == vx) {
+            if (ny < vy) {
+                return reitti + "V ";
+            }
+            if (ny > vy) {
+                return reitti + "O ";
+            }
         }
-        if (n.x == n.vanhempi.x && n.y > n.vanhempi.y) {
-            return reitti + "O ";
+
+        if (nx < vx) {
+            if (ny > vy) {
+                return reitti + "YO ";
+            }
+            if (ny < vy) {
+                return reitti + "YV ";
+            }
         }
-        if (n.x < n.vanhempi.x && n.y > n.vanhempi.y) {
-            return reitti + "YO ";
+        if (nx > vx) {
+            if (ny < vy) {
+                return reitti + "AV ";
+            }
+            if (ny > vy) {
+                return reitti + "AO ";
+            }
         }
-        if (n.x < n.vanhempi.x && n.y < n.vanhempi.y) {
-            return reitti + "YV ";
-        }
-        if (n.x > n.vanhempi.x && n.y < n.vanhempi.y) {
-            return reitti + "AV ";
-        }
-        if (n.x > n.vanhempi.x && n.y > n.vanhempi.y) {
-            return reitti + "AO ";
-        }
-        if (n.x > n.vanhempi.x && n.y == n.vanhempi.y) {
-            return reitti + "A ";
-        }
-        if (n.x < n.vanhempi.x && n.y == n.vanhempi.y) {
-            return reitti + "Y ";
+        if (ny == vy) {
+            if (nx > vx) {
+                return reitti + "A ";
+            }
+            if (nx < vx) {
+                return reitti + "Y ";
+            }
         }
 
         return reitti;

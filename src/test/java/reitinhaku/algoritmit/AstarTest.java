@@ -38,7 +38,13 @@ public class AstarTest {
     @Test
     public void reittiLoytyy() {
         a.alusta(testikartta);
-        assertTrue(a.haku(lahto));
+        assertTrue(a.haku());
 
+    }
+    @Test
+    public void reittiaEiLoydy(){
+        maali = new Koordinaatti(3,3);
+        a.aloita(testikartta);
+        assertFalse(a.haku());
     }
 }

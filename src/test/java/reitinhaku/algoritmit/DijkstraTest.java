@@ -2,8 +2,6 @@ package reitinhaku.algoritmit;
 
 import org.junit.*;
 
-import jdk.jfr.Timestamp;
-
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -19,7 +17,7 @@ public class DijkstraTest {
     Koordinaatti lahto;
     Koordinaatti maali;
 
-    public DijkstraTest(){
+    public DijkstraTest() {
 
     }
 
@@ -34,11 +32,19 @@ public class DijkstraTest {
         d = new Dijkstra();
 
     }
-    @Test
-    public void reittiLoytyy(){
-        d.alusta(testikartta);
-        assertTrue(d.haku(lahto));
 
+    @Test
+    public void reittiLoytyy() {
+        d.alusta(testikartta);
+        assertTrue(d.haku());
+
+    }
+
+    @Test
+    public void reittiaEiLoydy() {
+        maali = new Koordinaatti(3, 3);
+        d.aloita(testikartta);
+        assertFalse(d.haku());
     }
 
 }

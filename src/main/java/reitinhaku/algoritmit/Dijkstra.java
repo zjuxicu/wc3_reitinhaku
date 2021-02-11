@@ -4,6 +4,9 @@ import java.util.ArrayDeque;
 
 import reitinhaku.logiikka.Kartta;
 
+/**
+ * Lyhyimmän reitin haku Dijkstran algoritmillä.
+ */
 public class Dijkstra {
     private Koordinaatti alku;
     private Koordinaatti maali;
@@ -16,6 +19,11 @@ public class Dijkstra {
     private String reitti;
     private ArrayDeque<Koordinaatti> jono;
 
+    /**
+     * Alustaa tarvittavat arvot algoritmin suorittamiseksi.
+     * 
+     * @param kartta Käyttäjän valitsema kartta.
+     */
     public void alusta(Kartta kartta) {
         this.kartta = kartta;
         this.taulukko = kartta.getTaulukko();
@@ -26,14 +34,20 @@ public class Dijkstra {
         this.maali = new Koordinaatti(kartta.getMaaliX(), kartta.getMaaliY());
         jono = new ArrayDeque<>();
         jono.add(alku);
-        vierailtu[alku.x][alku.y] = true;
+        vierailtu[alku.getX()][alku.getY()] = true;
 
     }
 
+    /**
+     * Algoritmin valitsijan kutsuma metodi, joka ensin alustaa kartan arvot ja
+     * suorittaa itse algoritmin ja ilmoittaa käyttäjälle tuloksen.
+     * 
+     * @param kartta Käyttäjän valitsema kartta.
+     */
     public void aloita(Kartta kartta) {
         alusta(kartta);
 
-        if (haku(alku)) {
+        if (haku()) {
             System.out.println("Päästiin maaliin!");
             System.out.println("Reitti: " + reitti);
             System.out.println("Reitin pituus: " + pituus);
@@ -43,18 +57,27 @@ public class Dijkstra {
         }
     }
 
-    public boolean haku(Koordinaatti k) {
+    /**
+     * Haku suoritetaan käyttämällä Dijkstran algoritmiä.
+     * 
+     * @return boolean Palauttaa arvon löytyikö reittiä vai ei.
+     */
+    public boolean haku() {
         while (!jono.isEmpty()) {
             Koordinaatti n = jono.poll();
-            if (n.x == maali.x && n.y == maali.y) {
-                this.reitti = n.reitti;
-                pituus = n.laskeReitinPituus(reitti);
-                return true;
-            }
-            char ch = taulukko[n.x][n.y];
+            int x = n.getX();
+            int y = n.getY();
+            char ch = taulukko[x][y];
+
             if (ch == '@' || ch == 'O') { // nyt vain out of boundsit rajana
                 continue;
             }
+            if (x == maali.getX() && y == maali.getY()) {
+                this.reitti = n.getReitti();
+                pituus = n.laskeReitinPituus(reitti);
+                return true;
+            }
+
             for (Koordinaatti naapuri : n.naapurit()) {
                 tarkistaNaapuri(naapuri);
             }
@@ -62,13 +85,21 @@ public class Dijkstra {
         return false;
     }
 
+    /**
+     * tarkistaNaapuri tarkistaa onhan annettu parametri kartan rajojen sisäpuolella
+     * ja lisää sen tarvittaessa käsiteltävien koordinaattien tietorakenteeseen.
+     * 
+     * @param naapuri Käsiteltävä koordinaatti.
+     */
     public void tarkistaNaapuri(Koordinaatti naapuri) {
         if (kartta.rajojenSisalla(naapuri)) {
-            if (vierailtu[naapuri.x][naapuri.y]) {
+            int nx = naapuri.getX();
+            int ny = naapuri.getY();
+            if (vierailtu[nx][ny]) {
                 return;
             }
             jono.add(naapuri);
-            vierailtu[naapuri.x][naapuri.y] = true;
+            vierailtu[nx][ny] = true;
         }
     }
 }

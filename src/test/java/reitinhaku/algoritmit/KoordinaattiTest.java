@@ -32,7 +32,7 @@ public class KoordinaattiTest {
         String testikartannimi = "testi";
         testikartta = new Kartta(laturi.lataaKartta(testikartannimi), testikartannimi);
         a = new Koordinaatti(1, 10);
-        b = new Koordinaatti(2, 10, a);
+        b = new Koordinaatti(2, 10, a, 0.0);
     }
 
     @Test
@@ -43,21 +43,21 @@ public class KoordinaattiTest {
 
     @Test
     public void reittiKasvaaLomittain() {
-        assertEquals("", a.reitti);
-        assertEquals(0.0, a.laskeReitinPituus(a.reitti), 0.00001);
-        a = new Koordinaatti(a.getX(), a.getY(), a.reitti + "AO ");
-        assertEquals("AO ", a.reitti);
-        assertEquals(1.414213, a.laskeReitinPituus(a.reitti), 0.00001);
+        assertEquals("", a.getReitti());
+        assertEquals(0.0, a.laskeReitinPituus(a.getReitti()), 0.00001);
+        a = new Koordinaatti(a.getX(), a.getY(), a.getReitti() + "AO ");
+        assertEquals("AO ", a.getReitti());
+        assertEquals(1.414213, a.laskeReitinPituus(a.getReitti()), 0.00001);
 
     }
 
     @Test
     public void reittiKasvaaSuoraan() {
-        assertEquals("", a.reitti);
-        assertEquals(0.0, a.laskeReitinPituus(a.reitti), 0.00001);
-        a = new Koordinaatti(a.getX(), a.getY(), a.reitti + "A ");
-        assertEquals("A ", a.reitti);
-        assertEquals(1.0, a.laskeReitinPituus(a.reitti), 0.00001);
+        assertEquals("", a.getReitti());
+        assertEquals(0.0, a.laskeReitinPituus(a.getReitti()), 0.00001);
+        a = new Koordinaatti(a.getX(), a.getY(), a.getReitti() + "A ");
+        assertEquals("A ", a.getReitti());
+        assertEquals(1.0, a.laskeReitinPituus(a.getReitti()), 0.00001);
 
     }
 
