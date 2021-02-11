@@ -84,6 +84,7 @@ public class Astar {
                         continue;
                     }
                     vierailtu[nx][ny] = true;
+                    System.out.println("Koordinaatin" + n + " reitinPituus: "  + n.getReitinPituus());
                     double pituus = n.getReitinPituus() + kartta.linnuntie(naapuri, n);
                     jono.add(new Koordinaatti(nx, ny, n, pituus));
                 }

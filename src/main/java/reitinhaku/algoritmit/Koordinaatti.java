@@ -15,7 +15,7 @@ public class Koordinaatti implements Comparator<Koordinaatti> {
     private int x;
     private int y;
     private String reitti;
-    private double reitinPituus;
+    private double reitinPituus; // Lähtökoordinaatista kuljetun reitin pituus.
     private Koordinaatti vanhempi;
     private Koordinaatti maali;
 
@@ -28,14 +28,29 @@ public class Koordinaatti implements Comparator<Koordinaatti> {
         this.maali = maali;
     }
 
+    /**
+     * Dijkstrassa käytetty Koordinaatti. Pitää kirjaa reitistä Stringinä ja reitin
+     * pituutta doublena.
+     * 
+     * @param x
+     * @param y
+     */
     public Koordinaatti(int x, int y) {
         this.x = x;
         this.y = y;
-        vanhempi = null;
         reitti = "";
         reitinPituus = 0;
     }
 
+    /**
+     * A*-algoritmin käsiteltävien jonoa varten konstruktori, joka tietää mistä
+     * Koordinaatista tultiin ja tähänastisen lähdöstä kuljetun matkan.
+     * 
+     * @param x
+     * @param y
+     * @param vanhempi
+     * @param reitinPituus
+     */
     public Koordinaatti(int x, int y, Koordinaatti vanhempi, double reitinPituus) {
         this.x = x;
         this.y = y;
@@ -43,6 +58,14 @@ public class Koordinaatti implements Comparator<Koordinaatti> {
         this.reitinPituus = reitinPituus;
     }
 
+    /**
+     * Koordinaattien naapureiden läpikäymisen käytetty konstruktori, jota Dijkstran
+     * algoritmissä hyödynnetään. Katso naapurit().
+     * 
+     * @param x
+     * @param y
+     * @param reitti
+     */
     public Koordinaatti(int x, int y, String reitti) {
         this.x = x;
         this.y = y;
