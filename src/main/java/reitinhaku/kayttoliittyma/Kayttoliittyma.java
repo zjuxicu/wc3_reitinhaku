@@ -24,6 +24,7 @@ public class Kayttoliittyma {
         System.out.println("Kirjoita \"ohjeet\", jos haluat nähdä komennot ja ohjeet.");
         System.out.println("Valitse haluamasi kartta:");
         String kartannimi = lukija.nextLine();
+
         if (kartannimi.equals("ohjeet")) {
             ohjeet();
             System.out.println("Valitse haluamasi kartta:");
@@ -33,6 +34,13 @@ public class Kayttoliittyma {
             listaaKartat();
             System.out.println("Valitse haluamasi kartta:");
             kartannimi = lukija.nextLine();
+        }
+        if(kartannimi.equals("satunnainen")){
+            kartannimi = arvoKartta();
+        }
+        if (kartannimi.equals("testeri")) {
+            Tester testeri = new Tester(arvoKartta());
+            System.exit(0);
         }
         Kartta kartta = new Kartta(laturi.lataaKartta(kartannimi), kartannimi);
 
@@ -90,6 +98,8 @@ public class Kayttoliittyma {
         System.out.println("thecrucible (400,250) -> (312,400)");
         System.out.println("bootybay (96,55) -> (111,80)");
         System.out.println("Kirjoita \"lista\", jos haluat listauksen kaikista kartoista.");
+        System.out.println("Jos haluat ajaa suorituskykytestit, kirjoita \"testeri\"");
+        System.out.println("Jos mikä tahansa kartta käy, kirjoita \"satunnainen\"");
     }
 
     /**
@@ -101,6 +111,29 @@ public class Kayttoliittyma {
         for (File file : flista) {
             System.out.println(file.getName());
         }
+    }
+
+    /**
+     * Metodi arpoo kartan.
+     * 
+     * @return satunnainen kartta, joka ei ole "testi"
+     */
+    public String arvoKartta() {
+        File f = new File("src/main/resources");
+        File[] flista = f.listFiles();
+        String kartta = "";
+
+        for (int i = 1; i <= flista.length - 1; i++) {
+            int k = (int) System.nanoTime() % i;
+            if (k >= 0 && k <= flista.length) {
+                if (!flista[k].getName().equals("testi.map")) {
+                    kartta = flista[k].getName();
+                }
+            }
+
+        }
+        kartta = kartta.substring(0, kartta.length() - 4);
+        return kartta;
     }
 
 }

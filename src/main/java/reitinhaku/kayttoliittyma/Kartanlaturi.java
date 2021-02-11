@@ -27,6 +27,12 @@ public class Kartanlaturi {
         tiedot = false;
     }
 
+    /**
+     * Lukee tiedostosta kartan, ja muokkaa sen char[][] muotoon.
+     * 
+     * @param nimi Jos nimeä ei löydy resursseista, metodi sulkee ohjelman.
+     * @return char[][]
+     */
     public char[][] lataaKartta(String nimi) {
         InputStream is = getClass().getClassLoader().getResourceAsStream(nimi + ".map");
 
@@ -49,6 +55,11 @@ public class Kartanlaturi {
         return kartta;
     }
 
+    /**
+     * Metodi lukee kartasta perustiedot, jonka jälkeen täyttää char[][] taulukon.
+     * 
+     * @param rivitekstina
+     */
     public void lueRivi(String rivitekstina) {
         if (rivitekstina.contains("height")) {
             korkeus = Integer.parseInt(rivitekstina.replaceAll("\\D", ""));
