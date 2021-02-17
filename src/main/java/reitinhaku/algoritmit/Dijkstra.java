@@ -1,8 +1,7 @@
 package reitinhaku.algoritmit;
 
-import java.util.ArrayDeque;
-
 import reitinhaku.logiikka.Kartta;
+import reitinhaku.tietorakenteet.Jono;
 
 /**
  * Lyhyimmän reitin haku Dijkstran algoritmillä.
@@ -17,7 +16,7 @@ public class Dijkstra {
     private int leveys;
     private double pituus;
     private String reitti;
-    private ArrayDeque<Koordinaatti> jono;
+    private Jono jono;
 
     /**
      * Alustaa tarvittavat arvot algoritmin suorittamiseksi.
@@ -32,8 +31,8 @@ public class Dijkstra {
         this.vierailtu = new boolean[korkeus][leveys];
         this.alku = new Koordinaatti(kartta.getAlkuX(), kartta.getAlkuY());
         this.maali = new Koordinaatti(kartta.getMaaliX(), kartta.getMaaliY());
-        jono = new ArrayDeque<>();
-        jono.add(alku);
+        this.jono = new Jono(korkeus*leveys);
+        jono.lisaa(alku);
         vierailtu[alku.getX()][alku.getY()] = true;
 
     }
@@ -63,7 +62,7 @@ public class Dijkstra {
      * @return boolean Palauttaa arvon löytyikö reittiä vai ei.
      */
     public boolean haku() {
-        while (!jono.isEmpty()) {
+        while (!jono.tyhja()) {
             Koordinaatti n = jono.poll();
             int x = n.getX();
             int y = n.getY();
@@ -77,7 +76,6 @@ public class Dijkstra {
                 pituus = n.laskeReitinPituus(reitti);
                 return true;
             }
-
             for (Koordinaatti naapuri : n.naapurit()) {
                 tarkistaNaapuri(naapuri);
             }
@@ -98,7 +96,7 @@ public class Dijkstra {
             if (vierailtu[nx][ny]) {
                 return;
             }
-            jono.add(naapuri);
+            jono.lisaa(naapuri);
             vierailtu[nx][ny] = true;
         }
     }

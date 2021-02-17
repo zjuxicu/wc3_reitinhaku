@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import reitinhaku.tietorakenteet.Lista;
+
 /**
  * Koordinaatti
  * 
@@ -103,18 +105,17 @@ public class Koordinaatti implements Comparator<Koordinaatti> {
      * @return List<Koordinaatti> Koordinaatin viereiset koordinaatit. Ei ota
      *         huomioon onko sijainti mahdollinen, vai ei.
      */
-    public List<Koordinaatti> naapurit() {
-        List<Koordinaatti> naapurit = new ArrayList<>();
-        naapurit.add(new Koordinaatti(x + 1, y, reitti + "A "));
-        naapurit.add(new Koordinaatti(x - 1, y, reitti + "Y "));
-        naapurit.add(new Koordinaatti(x, y + 1, reitti + "O "));
-        naapurit.add(new Koordinaatti(x, y - 1, reitti + "V "));
-        naapurit.add(new Koordinaatti(x + 1, y + 1, reitti + "AO "));
-        naapurit.add(new Koordinaatti(x + 1, y - 1, reitti + "AV "));
-        naapurit.add(new Koordinaatti(x - 1, y + 1, reitti + "YO "));
-        naapurit.add(new Koordinaatti(x - 1, y - 1, reitti + "YV "));
-
-        return naapurit;
+    public Koordinaatti[] naapurit() {
+        Lista lista = new Lista();
+        lista.lisaa(new Koordinaatti(x + 1, y, reitti + "A "));
+        lista.lisaa(new Koordinaatti(x - 1, y, reitti + "Y "));
+        lista.lisaa(new Koordinaatti(x, y + 1, reitti + "O "));
+        lista.lisaa(new Koordinaatti(x, y - 1, reitti + "V "));
+        lista.lisaa(new Koordinaatti(x + 1, y + 1, reitti + "AO "));
+        lista.lisaa(new Koordinaatti(x + 1, y - 1, reitti + "AV "));
+        lista.lisaa(new Koordinaatti(x - 1, y + 1, reitti + "YO "));
+        lista.lisaa(new Koordinaatti(x - 1, y - 1, reitti + "YV "));
+        return lista.palauta();
     }
 
     /**
