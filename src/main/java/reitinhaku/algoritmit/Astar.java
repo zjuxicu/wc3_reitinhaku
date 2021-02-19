@@ -20,7 +20,6 @@ public class Astar {
     private int leveys;
     private double pituus;
     private String reitti;
-    private PrioriteettiJono jonno;
     private PriorityQueue<Koordinaatti> jono;
 
     /**

@@ -2,13 +2,13 @@ package reitinhaku.tietorakenteet;
 
 import reitinhaku.algoritmit.Solmu;
 
-public class PrioriteettiJono {
+public class Prioriteettijono {
 
     int koko;
     Solmu[] jono;
     int vika;
 
-    public PrioriteettiJono(int koko) {
+    public Prioriteettijono(int koko) {
         this.koko = koko;
         jono = new Solmu[koko];
         vika = 0;
