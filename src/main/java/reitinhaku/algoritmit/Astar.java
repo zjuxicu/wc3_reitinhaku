@@ -1,7 +1,5 @@
 package reitinhaku.algoritmit;
 
-import reitinhaku.tietorakenteet.PrioriteettiJono;
-
 import java.util.PriorityQueue;
 
 import reitinhaku.logiikka.Kartta;
