@@ -1,13 +1,13 @@
 package reitinhaku.tietorakenteet;
 
-import reitinhaku.algoritmit.Koordinaatti;
+import reitinhaku.algoritmit.Solmu;
 
 /**
  * Dijkstran algoritmin käyttämä jono.
  */
 public class Jono {
 
-    private Koordinaatti[] kl;
+    private Solmu[] sl;
     private int lisatty;
     private int poistettu;
 
@@ -18,33 +18,33 @@ public class Jono {
      * @param n
      */
     public Jono(int n) {
-        this.kl = new Koordinaatti[n];
+        this.sl = new Solmu[n];
         this.poistettu = 0;
         this.lisatty = 0;
     }
 
     /**
-     * Lisää jonon viimeiseksi Koordinaatti k.
+     * Lisää jonon viimeiseksi Solmu s.
      * 
-     * @param k
+     * @param s
      */
-    public void lisaa(Koordinaatti k) {
-        kl[lisatty++] = k;
+    public void lisaa(Solmu s) {
+        sl[lisatty++] = s;
     }
 
     /**
-     * Palauttaa ja poista jonosta ensimmäisen Koordinaatti.
+     * Palauttaa ja poista jonosta ensimmäisen Solmun.
      * 
-     * @return Koordinaatti
+     * @return Solmu
      */
-    public Koordinaatti poll() {
+    public Solmu poll() {
         this.poistettu++;
-        return kl[poistettu - 1];
+        return sl[poistettu - 1];
     }
 
     /**
      * Jono on tyhjä, jos sinne on lisätty ja sieltä on poistettu sama määrä
-     * Koordinaatteja.
+     * Solmuja.
      * 
      * @return boolean
      */

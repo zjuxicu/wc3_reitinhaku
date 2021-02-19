@@ -1,5 +1,7 @@
 package reitinhaku.algoritmit;
 
+import reitinhaku.tietorakenteet.PrioriteettiJono;
+
 import java.util.PriorityQueue;
 
 import reitinhaku.logiikka.Kartta;
@@ -18,6 +20,7 @@ public class Astar {
     private int leveys;
     private double pituus;
     private String reitti;
+    private PrioriteettiJono jonno;
     private PriorityQueue<Koordinaatti> jono;
 
     /**
@@ -64,19 +67,19 @@ public class Astar {
     public boolean haku() {
         while (!jono.isEmpty()) {
             Koordinaatti n = jono.poll();
-            int x = n.getX();
-            int y = n.getY();
+            int x = n.getKoordinaatti().getX();
+            int y = n.getKoordinaatti().getY();
             char ch = taulukko[x][y];
             if (ch == '@' || ch == 'O') { // nyt vain out of boundsit rajana
                 continue;
             }
             this.reitti = kirjaaReitti(n);
-            if (x == maali.getX() && y == maali.getY()) {
+            if (x == maali.getKoordinaatti().getX() && y == maali.getKoordinaatti().getY()) {
                 this.pituus = n.getReitinPituus();
                 return true;
             }
 
-            for (Koordinaatti naapuri : n.naapurit()) {
+            for (Koordinaatti naapuri : n.getKoordinaatti().naapurit()) {
                 if (kartta.rajojenSisalla(naapuri)) {
                     int nx = naapuri.getX();
                     int ny = naapuri.getY();
@@ -84,7 +87,7 @@ public class Astar {
                         continue;
                     }
                     vierailtu[nx][ny] = true;
-                    double pituus = n.getReitinPituus() + kartta.linnuntie(naapuri, n);
+                    double pituus = n.getReitinPituus() + kartta.linnuntie(naapuri, n.getKoordinaatti());
                     jono.add(new Koordinaatti(nx, ny, n, pituus));
                 }
             }
@@ -109,10 +112,10 @@ public class Astar {
             return "";
         } else {
             v = n.getVanhempi();
-            nx = n.getX();
-            ny = n.getY();
-            vx = v.getX();
-            vy = v.getY();
+            nx = n.getKoordinaatti().getX();
+            ny = n.getKoordinaatti().getY();
+            vx = v.getKoordinaatti().getX();
+            vy = v.getKoordinaatti().getY();
         }
         if (nx == vx) {
             if (ny < vy) {
@@ -148,5 +151,6 @@ public class Astar {
         }
 
         return reitti;
+
     }
 }

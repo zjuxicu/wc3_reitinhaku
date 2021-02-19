@@ -40,7 +40,7 @@ public class KoordinaattiTest {
         assertNull(a.getVanhempi());
         assertEquals(a, b.getVanhempi());
     }
-
+/*
     @Test
     public void reittiKasvaaLomittain() {
         assertEquals("", a.getReitti());
@@ -50,7 +50,8 @@ public class KoordinaattiTest {
         assertEquals(1.414213, a.laskeReitinPituus(a.getReitti()), 0.00001);
 
     }
-
+*/
+/*
     @Test
     public void reittiKasvaaSuoraan() {
         assertEquals("", a.getReitti());
@@ -60,6 +61,7 @@ public class KoordinaattiTest {
         assertEquals(1.0, a.laskeReitinPituus(a.getReitti()), 0.00001);
 
     }
+    */
 
     @Test
     public void naapuritLoytyy() {
