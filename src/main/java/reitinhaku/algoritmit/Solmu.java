@@ -89,6 +89,9 @@ public class Solmu {
      * @return
      */
     public String getReitti() {
+        if(this.reitti == null){
+            this.reitti = "";
+        }
         return this.reitti;
     }
 

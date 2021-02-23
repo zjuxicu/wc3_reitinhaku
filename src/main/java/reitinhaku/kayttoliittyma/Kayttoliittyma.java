@@ -38,11 +38,11 @@ public class Kayttoliittyma {
         if(kartannimi.equals("satunnainen")){
             kartannimi = arvoKartta();
         }
-        if (kartannimi.equals("testeri")) {
+        if (kartannimi.equals("testeri")) { 
             Tester testeri = new Tester(arvoKartta());
             System.exit(0);
         }
-        if(kartannimi.equals("aa")){
+        if(kartannimi.equals("aa")){ //käsintestaamisen nopeuttamista varten
             kartannimi = "testi";
             Kartta kartta = new Kartta(laturi.lataaKartta(kartannimi), kartannimi);
             kartta.asetaLahto(0, 0);
@@ -101,6 +101,7 @@ public class Kayttoliittyma {
      * Tulostaa ohjeet ja tarjoaa muutamat esimerkkiarvot.
      */
     public void ohjeet() {
+        System.out.println();
         System.out.println("Valitessasi karttaa, kirjoita kartannimi ilman .map-päätettä");
         System.out.println("Toimivat arvot ovat esimerkiksi:");
         System.out.println("thecrucible (400,250) -> (312,400)");
@@ -109,6 +110,7 @@ public class Kayttoliittyma {
         System.out.println("Kirjoita \"lista\", jos haluat listauksen kaikista kartoista.");
         System.out.println("Jos haluat ajaa suorituskykytestit, kirjoita \"testeri\"");
         System.out.println("Jos mikä tahansa kartta käy, kirjoita \"satunnainen\"");
+        System.out.println();
     }
 
     /**

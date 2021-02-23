@@ -72,8 +72,8 @@ public class Dijkstra {
                 continue;
             }
             if (x == maali.getKoordinaatti().getX() && y == maali.getKoordinaatti().getY()) {
-                this.reitti = n.getReitti();
-                // pituus = n.laskeReitinPituus(reitti);
+                this.reitti = n.getKoordinaatti().getReitti();
+                pituus = n.laskeReitinPituus(reitti);
                 return true;
             }
             for (Koordinaatti naapuri : n.getKoordinaatti().naapurit()) {

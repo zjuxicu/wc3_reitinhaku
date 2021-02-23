@@ -2,8 +2,6 @@ package reitinhaku.algoritmit;
 
 import org.junit.*;
 
-import jdk.jfr.Timestamp;
-
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -40,28 +38,7 @@ public class KoordinaattiTest {
         assertNull(a.getVanhempi());
         assertEquals(a, b.getVanhempi());
     }
-/*
-    @Test
-    public void reittiKasvaaLomittain() {
-        assertEquals("", a.getReitti());
-        assertEquals(0.0, a.laskeReitinPituus(a.getReitti()), 0.00001);
-        a = new Koordinaatti(a.getX(), a.getY(), a.getReitti() + "AO ");
-        assertEquals("AO ", a.getReitti());
-        assertEquals(1.414213, a.laskeReitinPituus(a.getReitti()), 0.00001);
 
-    }
-*/
-/*
-    @Test
-    public void reittiKasvaaSuoraan() {
-        assertEquals("", a.getReitti());
-        assertEquals(0.0, a.laskeReitinPituus(a.getReitti()), 0.00001);
-        a = new Koordinaatti(a.getX(), a.getY(), a.getReitti() + "A ");
-        assertEquals("A ", a.getReitti());
-        assertEquals(1.0, a.laskeReitinPituus(a.getReitti()), 0.00001);
-
-    }
-    */
 
     @Test
     public void naapuritLoytyy() {
@@ -83,5 +60,23 @@ public class KoordinaattiTest {
             i++;
         }
     }
+    @Test
+    public void reittiKasvaaLomittain() {
+        assertEquals("", a.getReitti());
+        assertEquals(0.0, a.laskeReitinPituus(a.getReitti()), 0.00001);
+        a = new Koordinaatti(a.getX(), a.getY(), a.getReitti() + "AO ");
+        assertEquals("AO ", a.getReitti());
+        assertEquals(1.414213, a.laskeReitinPituus(a.getReitti()), 0.00001);
 
+    }
+
+    @Test
+    public void reittiKasvaaSuoraan() {
+        assertEquals("", a.getReitti());
+        assertEquals(0.0, a.laskeReitinPituus(a.getReitti()), 0.00001);
+        a = new Koordinaatti(a.getX(), a.getY(), a.getReitti() + "A ");
+        assertEquals("A ", a.getReitti());
+        assertEquals(1.0, a.laskeReitinPituus(a.getReitti()), 0.00001);
+
+    }
 }

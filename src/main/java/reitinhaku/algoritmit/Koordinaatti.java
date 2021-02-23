@@ -113,6 +113,10 @@ public class Koordinaatti implements Comparator<Koordinaatti> {
         return this;
     }
 
+    public String getReitti() {
+        return this.reitti;
+    }
+
     /**
      * Palauttaa Koordinaatin vanhemman.
      * 
@@ -177,4 +181,27 @@ public class Koordinaatti implements Comparator<Koordinaatti> {
         return 0;
     }
 
+    /**
+     * Dijkstran algoritmiä varten toteutettu reitinlaskuri.
+     * 
+     * @param reitti esim. "AO AO A AV A O O O".
+     * @return double samalla esimerkillä tulostuisi ~9.24
+     */
+    public double laskeReitinPituus(String reitti) {
+        if (reitti.length() == 0) {
+            return 0;
+        }
+        double pituus = 0;
+        String str[] = reitti.split(" ");
+        double apu = Math.sqrt(2);
+        for (int i = 0; i < str.length; i++) {
+            if (str[i].length() == 1) {
+                pituus++;
+            } else {
+                pituus += apu;
+            }
+        }
+
+        return pituus;
+    }
 }
