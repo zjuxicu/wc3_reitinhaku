@@ -36,11 +36,21 @@ public class AlgoritminValitsija {
     public void dijkstra() {
         Dijkstra d = new Dijkstra();
         long aloitusAika = System.nanoTime();
-        d.aloita(kartta);
+        d.alusta(kartta);
+        boolean onnistui = d.haku();
         long lopetusAika = System.nanoTime();
         long kesto = (lopetusAika - aloitusAika);
         double sekuntit = ((double) kesto / 1000000000);
         System.out.println("Polun haussa kesti Dijkstralle " + kesto + "ns ~" + sekuntit + "s");
+        if (onnistui) {
+            System.out.println("Päästiin maaliin!");
+            System.out.println("Reitti: " + d.getReitti());
+            System.out.println("Reitin pituus: " + d.getPituus());
+            System.out.println("Dijkstra kävi läpi " + d.getVieraillut() + " solmua.");
+
+        } else {
+            System.out.println("Reittiä ei löytynyt, kokeile eri arvoja!");
+        }
     }
 
     /**
@@ -49,10 +59,20 @@ public class AlgoritminValitsija {
     public void astar() {
         Astar a = new Astar();
         long aloitusAika = System.nanoTime();
-        a.aloita(kartta);
+        a.alusta(kartta);
+        boolean onnistui = a.haku();
         long lopetusAika = System.nanoTime();
         long kesto = (lopetusAika - aloitusAika);
         double sekuntit = ((double) kesto / 1000000000);
         System.out.println("Polun haussa kesti A*:lle " + kesto + "ns ~" + sekuntit + "s");
+        if (onnistui) {
+            System.out.println("Päästiin maaliin!");
+            System.out.println("Reitti: " + a.getReitti());
+            System.out.println("Reitin pituus: " + a.getPituus());
+            System.out.println("A* kävi läpi " + a.getVieraillut() + " solmua.");
+
+        } else {
+            System.out.println("Reittiä ei löytynyt, kokeile eri arvoja!");
+        }
     }
 }

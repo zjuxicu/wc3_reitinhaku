@@ -2,12 +2,7 @@ package reitinhaku.algoritmit;
 
 import org.junit.*;
 
-import jdk.jfr.Timestamp;
-
 import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import reitinhaku.kayttoliittyma.*;
 import reitinhaku.logiikka.Kartta;
@@ -43,8 +38,9 @@ public class AstarTest {
     }
     @Test
     public void reittiaEiLoydy(){
-        maali = new Koordinaatti(3,3);
-        a.aloita(testikartta);
-        assertFalse(a.haku());
+        testikartta.asetaMaali(3, 3);
+        a.alusta(testikartta);
+        boolean haku = a.haku();
+        assertFalse(haku);
     }
 }

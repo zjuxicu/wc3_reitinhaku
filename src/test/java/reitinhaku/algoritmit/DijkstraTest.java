@@ -4,9 +4,6 @@ import org.junit.*;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import reitinhaku.kayttoliittyma.*;
 import reitinhaku.logiikka.Kartta;
 
@@ -42,8 +39,8 @@ public class DijkstraTest {
 
     @Test
     public void reittiaEiLoydy() {
-        maali = new Koordinaatti(3, 3);
-        d.aloita(testikartta);
+        testikartta.asetaMaali(3, 3);
+        d.alusta(testikartta);
         assertFalse(d.haku());
     }
 

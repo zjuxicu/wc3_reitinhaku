@@ -156,10 +156,10 @@ public class Koordinaatti implements Comparator<Koordinaatti> {
     }
 
     public double etaisyysMaalista(Koordinaatti k) {
-        double x = k.x - maali.x;
-        double absx = x > 0 ? x : -x;
-        double y = k.y - maali.y;
-        double absy = y > 0 ? y : -y;
+        double erox = (double) (k.x - maali.x);
+        double absx = erox > 0 ? erox : -erox;
+        double eroy = (double) (k.y - maali.y);
+        double absy = eroy > 0 ? eroy : -eroy;
         return Math.sqrt(absx * absx + absy * absy);
     }
 
@@ -192,7 +192,7 @@ public class Koordinaatti implements Comparator<Koordinaatti> {
             return 0;
         }
         double pituus = 0;
-        String str[] = reitti.split(" ");
+        String[] str = reitti.split(" ");
         double apu = Math.sqrt(2);
         for (int i = 0; i < str.length; i++) {
             if (str[i].length() == 1) {

@@ -17,6 +17,7 @@ public class Dijkstra {
     private double pituus;
     private String reitti;
     private Jono jono;
+    private int vieraillut;
 
     /**
      * Alustaa tarvittavat arvot algoritmin suorittamiseksi.
@@ -33,27 +34,9 @@ public class Dijkstra {
         this.maali = new Solmu(kartta.getMaaliX(), kartta.getMaaliY());
         this.jono = new Jono(korkeus * leveys);
         jono.lisaa(alku);
+        this.vieraillut = 0;
         vierailtu[alku.getKoordinaatti().getX()][alku.getKoordinaatti().getY()] = true;
 
-    }
-
-    /**
-     * Algoritmin valitsijan kutsuma metodi, joka ensin alustaa kartan arvot ja
-     * suorittaa itse algoritmin ja ilmoittaa käyttäjälle tuloksen.
-     * 
-     * @param kartta Käyttäjän valitsema kartta.
-     */
-    public void aloita(Kartta kartta) {
-        alusta(kartta);
-
-        if (haku()) {
-            System.out.println("Päästiin maaliin!");
-            System.out.println("Reitti: " + reitti);
-            System.out.println("Reitin pituus: " + pituus);
-
-        } else {
-            System.out.println("Reittiä ei löytynyt, kokeile eri arvoja!");
-        }
     }
 
     /**
@@ -64,6 +47,7 @@ public class Dijkstra {
     public boolean haku() {
         while (!jono.tyhja()) {
             Solmu n = jono.poll();
+            vieraillut++;
             int x = n.getKoordinaatti().getX();
             int y = n.getKoordinaatti().getY();
             char ch = taulukko[x][y];
@@ -99,5 +83,17 @@ public class Dijkstra {
             jono.lisaa(new Solmu(naapuri));
             vierailtu[nx][ny] = true;
         }
+    }
+
+    public String getReitti() {
+        return this.reitti;
+    }
+
+    public double getPituus() {
+        return this.pituus;
+    }
+
+    public int getVieraillut() {
+        return this.vieraillut;
     }
 }

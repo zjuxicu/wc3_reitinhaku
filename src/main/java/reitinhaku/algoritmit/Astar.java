@@ -16,6 +16,7 @@ public class Astar {
     private char[][] taulukko;
     private int korkeus;
     private int leveys;
+    private int vieraillut;
     private double pituus;
     private String reitti;
     private PriorityQueue<Koordinaatti> jono;
@@ -28,6 +29,7 @@ public class Astar {
     public void alusta(Kartta kartta) {
         this.kartta = kartta;
         this.taulukko = kartta.getTaulukko();
+        this.vieraillut = 0;
         this.alku = new Koordinaatti(kartta.getAlkuX(), kartta.getAlkuY());
         this.maali = new Koordinaatti(kartta.getMaaliX(), kartta.getMaaliY());
         this.korkeus = taulukko.length;
@@ -38,25 +40,6 @@ public class Astar {
     }
 
     /**
-     * Algoritmin valitsijan kutsuma metodi, joka ensin alustaa kartan arvot ja
-     * suorittaa itse algoritmin ja ilmoittaa käyttäjälle tuloksen.
-     * 
-     * @param kartta Käyttäjän valitsema kartta.
-     */
-    public void aloita(Kartta kartta) {
-        alusta(kartta);
-
-        if (haku()) {
-            System.out.println("Päästiin maaliin!");
-            System.out.println("Reitti: " + reitti);
-            System.out.println("Reitin pituus: " + pituus);
-
-        } else {
-            System.out.println("Reittiä ei löytynyt, kokeile eri arvoja!");
-        }
-    }
-
-    /**
      * Haku suoritetaan käyttämällä A*-algoritmiä.
      * 
      * @return boolean Palauttaa arvon löytyikö reittiä vai ei.
@@ -64,6 +47,7 @@ public class Astar {
     public boolean haku() {
         while (!jono.isEmpty()) {
             Koordinaatti n = jono.poll();
+            vieraillut++;
             int x = n.getKoordinaatti().getX();
             int y = n.getKoordinaatti().getY();
             char ch = taulukko[x][y];
@@ -149,5 +133,17 @@ public class Astar {
 
         return reitti;
 
+    }
+
+    public String getReitti() {
+        return this.reitti;
+    }
+
+    public double getPituus() {
+        return this.pituus;
+    }
+
+    public int getVieraillut() {
+        return this.vieraillut;
     }
 }

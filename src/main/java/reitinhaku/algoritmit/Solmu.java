@@ -7,8 +7,6 @@ public class Solmu {
     private double reitinPituus; // Lähtökoordinaatista kuljetun reitin pituus.
     private double jaljella; // Oletettu etäisyys maalista
     private Koordinaatti vanhempi;
-    private Solmu lahto;
-    private Koordinaatti maali;
 
     /**
      * Pitää kirjaa reitistä Stringinä ja reitin pituutta doublena.
@@ -40,13 +38,13 @@ public class Solmu {
         this.k = k;
     }
 
-	public Solmu(Koordinaatti koordinaatti, Koordinaatti vanhempi, double reitinPituus) {
+    public Solmu(Koordinaatti koordinaatti, Koordinaatti vanhempi, double reitinPituus) {
         this.k = koordinaatti;
         this.vanhempi = vanhempi;
         this.reitinPituus = reitinPituus;
-	}
+    }
 
-	public Koordinaatti getKoordinaatti() {
+    public Koordinaatti getKoordinaatti() {
         return this.k;
     }
 
@@ -61,7 +59,7 @@ public class Solmu {
             return 0;
         }
         double pituus = 0;
-        String str[] = reitti.split(" ");
+        String[] str = reitti.split(" ");
         double apu = Math.sqrt(2);
         for (int i = 0; i < str.length; i++) {
             if (str[i].length() == 1) {
@@ -89,7 +87,7 @@ public class Solmu {
      * @return
      */
     public String getReitti() {
-        if(this.reitti == null){
+        if (this.reitti == null) {
             this.reitti = "";
         }
         return this.reitti;
@@ -114,7 +112,7 @@ public class Solmu {
      * @param k Maaliin vertailtava koordinaatti.
      * @return double Euklidinen etäisyys.
      */
- 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -133,12 +131,11 @@ public class Solmu {
 
     @Override
     public int hashCode() {
-        int hash = 1337;
-        return hash;
+        return 1337;
     }
 
     @Override
     public String toString() {
-        return this.k + ""; // + " " + jaljella + " " + reitinPituus + " " + reitti;
+        return this.k + " " + jaljella + " " + reitinPituus + " " + reitti;
     }
 }
