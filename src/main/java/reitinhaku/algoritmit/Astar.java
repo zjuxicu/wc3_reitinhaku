@@ -3,6 +3,7 @@ package reitinhaku.algoritmit;
 import java.util.PriorityQueue;
 
 import reitinhaku.logiikka.Kartta;
+import reitinhaku.tietorakenteet.Keko;
 
 /**
  * Lyhyimmän reitin haku A*-algoritmillä.
@@ -14,12 +15,10 @@ public class Astar {
     private Kartta kartta;
     private boolean[][] vierailtu;
     private char[][] taulukko;
-    private int korkeus;
-    private int leveys;
     private int vieraillut;
     private double pituus;
     private String reitti;
-    private PriorityQueue<Koordinaatti> jono;
+    private Keko jono;
 
     /**
      * Alustaa tarvittavat arvot algoritmin suorittamiseksi.
@@ -32,11 +31,9 @@ public class Astar {
         this.vieraillut = 0;
         this.alku = new Koordinaatti(kartta.getAlkuX(), kartta.getAlkuY());
         this.maali = new Koordinaatti(kartta.getMaaliX(), kartta.getMaaliY());
-        this.korkeus = taulukko.length;
-        this.leveys = taulukko[0].length;
-        this.vierailtu = new boolean[korkeus][leveys];
-        jono = new PriorityQueue<>(new Koordinaatti(maali));
-        jono.add(new Koordinaatti(alku.getX(), alku.getY(), null, 0));
+        this.vierailtu = new boolean[taulukko.length][taulukko[0].length];
+        jono = new Keko(taulukko.length * taulukko[0].length, new Koordinaatti(maali));
+        jono.lisaa(new Koordinaatti(alku.getX(), alku.getY()));
     }
 
     /**
@@ -45,35 +42,40 @@ public class Astar {
      * @return boolean Palauttaa arvon löytyikö reittiä vai ei.
      */
     public boolean haku() {
-        while (!jono.isEmpty()) {
-            Koordinaatti n = jono.poll();
+
+        while (!jono.tyhja()) {
+            Koordinaatti k = jono.nouda();
             vieraillut++;
-            int x = n.getKoordinaatti().getX();
-            int y = n.getKoordinaatti().getY();
-            char ch = taulukko[x][y];
-            if (ch == '@' || ch == 'O') { // nyt vain out of boundsit rajana
-                continue;
-            }
-            this.reitti = kirjaaReitti(n);
-            if (x == maali.getKoordinaatti().getX() && y == maali.getKoordinaatti().getY()) {
-                this.pituus = n.getReitinPituus();
+            int x = k.getX();
+            int y = k.getY();
+            this.reitti = kirjaaReitti(k);
+            if (x == maali.getX() && y == maali.getY()) {
+
+                this.pituus = k.getReitinPituus();
                 return true;
             }
 
-            for (Koordinaatti naapuri : n.getKoordinaatti().naapurit()) {
+            for (Koordinaatti naapuri : k.naapurit()) {
                 if (kartta.rajojenSisalla(naapuri)) {
-                    int nx = naapuri.getX();
-                    int ny = naapuri.getY();
-                    if (vierailtu[nx][ny]) {
-                        continue;
-                    }
-                    vierailtu[nx][ny] = true;
-                    double pituus = n.getReitinPituus() + kartta.linnuntie(naapuri, n.getKoordinaatti());
-                    jono.add(new Koordinaatti(nx, ny, n, pituus));
+                    tarkistaNaapuri(naapuri, k);
                 }
             }
         }
         return false;
+    }
+
+    public void tarkistaNaapuri(Koordinaatti naapuri, Koordinaatti n) {
+        int nx = naapuri.getX();
+        int ny = naapuri.getY();
+        if (vierailtu[nx][ny]) {
+            return;
+        }
+        vierailtu[nx][ny] = true;
+        char ch = taulukko[nx][ny];
+        if (ch == '@' || ch == 'O') { // nyt vain out of boundsit rajana
+            return;
+        }
+        jono.lisaa(new Koordinaatti(nx, ny, n, (n.getReitinPituus() + kartta.linnuntie(naapuri, n))));
     }
 
     /**
@@ -93,10 +95,10 @@ public class Astar {
             return "";
         } else {
             v = n.getVanhempi();
-            nx = n.getKoordinaatti().getX();
-            ny = n.getKoordinaatti().getY();
-            vx = v.getKoordinaatti().getX();
-            vy = v.getKoordinaatti().getY();
+            nx = n.getX();
+            ny = n.getY();
+            vx = v.getX();
+            vy = v.getY();
         }
         if (nx == vx) {
             if (ny < vy) {

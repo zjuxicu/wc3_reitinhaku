@@ -107,6 +107,7 @@ public class Kayttoliittyma {
         System.out.println("thecrucible (400,250) -> (312,400)");
         System.out.println("bootybay (96,55) -> (111,80)");
         System.out.println("gardenofwar (86,134) -> (266,270)");
+        System.out.println("battleground (86,134) -> (432,225)");
         System.out.println("Kirjoita \"lista\", jos haluat listauksen kaikista kartoista.");
         System.out.println("Jos haluat ajaa suorituskykytestit, kirjoita \"testeri\"");
         System.out.println("Jos mikä tahansa kartta käy, kirjoita \"satunnainen\"");

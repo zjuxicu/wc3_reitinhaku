@@ -1,7 +1,5 @@
 package reitinhaku.algoritmit;
 
-import java.util.Comparator;
-
 import reitinhaku.tietorakenteet.Lista;
 
 /**
@@ -10,7 +8,7 @@ import reitinhaku.tietorakenteet.Lista;
  * Tietorakenne, joka pitää kirjaa kartan pisteistä ja reitistä pisteitten
  * välillä.
  */
-public class Koordinaatti implements Comparator<Koordinaatti> {
+public class Koordinaatti {
 
     private int x;
     private int y;
@@ -56,7 +54,6 @@ public class Koordinaatti implements Comparator<Koordinaatti> {
         this.y = y;
         this.vanhempi = vanhempi;
         this.reitinPituus = reitinPituus;
-        // Solmu s = new Solmu(this, vanhempi, reitinPituus);
 
     }
 
@@ -153,32 +150,6 @@ public class Koordinaatti implements Comparator<Koordinaatti> {
         lista.lisaa(new Koordinaatti(x - 1, y + 1, reitti + "YO "));
         lista.lisaa(new Koordinaatti(x - 1, y - 1, reitti + "YV "));
         return lista.palauta();
-    }
-
-    public double etaisyysMaalista(Koordinaatti k) {
-        double erox = (double) (k.x - maali.x);
-        double absx = erox > 0 ? erox : -erox;
-        double eroy = (double) (k.y - maali.y);
-        double absy = eroy > 0 ? eroy : -eroy;
-        return Math.sqrt(absx * absx + absy * absy);
-    }
-
-    /**
-     * Toteuttaa Koordinaattien vertailun A*-algoritmiä varten.
-     * 
-     * @param k1
-     * @param k2
-     * @return int Kumpi koordinaateista on oletetusti lähempänä maalia.
-     */
-    @Override
-    public int compare(Koordinaatti k1, Koordinaatti k2) {
-        if (etaisyysMaalista(k1) > etaisyysMaalista(k2)) {
-            return 1;
-        }
-        if (etaisyysMaalista(k1) < etaisyysMaalista(k2)) {
-            return -1;
-        }
-        return 0;
     }
 
     /**

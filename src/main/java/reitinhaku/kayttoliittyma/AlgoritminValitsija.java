@@ -46,7 +46,7 @@ public class AlgoritminValitsija {
             System.out.println("Päästiin maaliin!");
             System.out.println("Reitti: " + d.getReitti());
             System.out.println("Reitin pituus: " + d.getPituus());
-            System.out.println("Dijkstra kävi läpi " + d.getVieraillut() + " solmua.");
+            System.out.println("Dijkstra kävi läpi haun aikana " + d.getVieraillut() + " solmua.");
 
         } else {
             System.out.println("Reittiä ei löytynyt, kokeile eri arvoja!");
@@ -69,7 +69,7 @@ public class AlgoritminValitsija {
             System.out.println("Päästiin maaliin!");
             System.out.println("Reitti: " + a.getReitti());
             System.out.println("Reitin pituus: " + a.getPituus());
-            System.out.println("A* kävi läpi " + a.getVieraillut() + " solmua.");
+            System.out.println("A* kävi läpi haun aikana " + a.getVieraillut() + " solmua.");
 
         } else {
             System.out.println("Reittiä ei löytynyt, kokeile eri arvoja!");
