@@ -8,12 +8,24 @@ Käynnistä ohjelma komennolla
 ```
 ./gradlew run
 ```
-Suorituskykytestejä voi ajaa komennolla,
+Ykiskkötestit suoritetaan komennolla
+```
+./gradlew test
+```
+Jacoco Testikattavuusraportin saat suorittamalla komennon
+```
+./gradlew test jacocoTestReport
+```
+Suorituskykytestejä voi ajaa ohjelman ollessa käynnissä komennolla,
 ```
 testeri
 ```
-joka arpoo käytettävän karta ja jonka jälkeen ohjelma kysyy montako kertaa reittiä etsitään satunnaisilla koordinaateilla. Syötä ohjelmalle mikä tahansa luku.
+joka arpoo käytettävän kartan, minkä jälkeen ohjelma kysyy montako kertaa testit suoritetaan satunnaisilla koordinaateilla.
 
+Jos haluat valita kartan ja koordinaatit käsin, niin ohjeita ja esimerkkisyötteitä saat kirjoittamalla
+```
+ohjeet
+```
 Kartannimi annetaan ohjelmalle ilman .map-päätettä. Ohjelma kertoo löytyikö karttaa, jonka jälkeen pyytää käyttäjää syöttämään vaaditut koordinaatit.
 [Movin ai labsin](https://www.movingai.com/benchmarks/wc3maps512/index.html) karttoja vastaavat koordinaatit 0-511. Koordinaatit syötetään ohjelmalle yksi kerrallaan.
 
@@ -21,10 +33,7 @@ Listauksen saatavilla olevista kartoista saat kirjoittamalla
 ```
 lista
 ```
-Ohjeita ja esimerkkisyötteitä saat kirjoittamalla
-```
-ohjeet
-```
+
 
 Halutessasi satunnaisen kartan, kirjoita
 ```
