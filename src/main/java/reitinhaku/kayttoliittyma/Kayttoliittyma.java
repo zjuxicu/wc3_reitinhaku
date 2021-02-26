@@ -38,8 +38,10 @@ public class Kayttoliittyma {
         if(kartannimi.equals("satunnainen")){
             kartannimi = arvoKartta();
         }
-        if (kartannimi.equals("testeri")) { 
-            Tester testeri = new Tester(arvoKartta());
+        if (kartannimi.equals("testeri")) {
+            System.out.println("Monta kertaa haluat testata?"); 
+            int kerrat = lukija.nextInt();
+            Tester testeri = new Tester(arvoKartta(), kerrat);
             System.exit(0);
         }
         if(kartannimi.equals("aa")){ //käsintestaamisen nopeuttamista varten
