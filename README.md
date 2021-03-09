@@ -1,7 +1,9 @@
 # wc3_reitinhaku
 
 [Viikkoraportit](https://github.com/zjuxicu/wc3_reitinhaku/tree/main/dokumentaatio/viikkoraportit)  
-[Määrittelydokumentti](https://github.com/zjuxicu/wc3_reitinhaku/blob/main/dokumentaatio/maarittely.md)
+[Määrittelydokumentti](https://github.com/zjuxicu/wc3_reitinhaku/blob/main/dokumentaatio/maarittely.md)  
+[Testausdokumentti](https://github.com/zjuxicu/wc3_reitinhaku/blob/main/dokumentaatio/Testausdokumentti.md)  
+[Toteutusdokumentti](https://github.com/zjuxicu/wc3_reitinhaku/blob/main/dokumentaatio/Toteutusdokumentti.md)  
 
 ## Käyttöohjeet
 Käynnistä ohjelma komennolla
