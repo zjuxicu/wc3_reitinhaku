@@ -3,65 +3,62 @@ package reitinhaku.algoritmit;
 import org.junit.*;
 
 import static org.junit.Assert.*;
-
 import reitinhaku.kartta.*;
 
-public class DijkstraTest {
+public class JPSTest {
     Kartanlaturi laturi;
     Kartta testikartta;
-    Dijkstra d;
+    JPS jps;
     Koordinaatti lahto;
     Koordinaatti maali;
-
-    public DijkstraTest() {
-
-    }
 
     @Before
     public void setUp() {
         laturi = new Kartanlaturi();
+        laturi = new Kartanlaturi();
         String testikartannimi = "testi";
         testikartta = new Kartta(laturi.lataaKartta(testikartannimi), testikartannimi);
-        testikartta.asetaMaali(4, 4);
-        lahto = new Koordinaatti(0, 0);
-        maali = new Koordinaatti(4, 4);
-        d = new Dijkstra();
+        testikartta.asetaLahto(1, 1);
+        testikartta.asetaMaali(24, 24);
+        lahto = new Koordinaatti(1, 1);
+        maali = new Koordinaatti(24, 24);
+        jps = new JPS();
 
     }
 
     @Test
     public void reittiLoytyy() {
-        d.alusta(testikartta);
-        assertTrue(d.haku());
-
+        jps.alusta(testikartta);
+        boolean onnistui = jps.haku();
+        assertTrue(onnistui);
     }
     @Test
     public void polkuLoytyy(){
-        d.alusta(testikartta);
-        boolean onnistui = d.haku();
-        Solmu s = d.loppuSolmu();
+        jps.alusta(testikartta);
+        boolean onnistui = jps.haku();
+        Solmu s = jps.loppuSolmu();
         String reitti = "";
-        d.luoPolku(s);
-        assertNotEquals(reitti, d.getReitti());
+        jps.luoPolku(s);
+        assertNotEquals(reitti, jps.getReitti());
     }
     @Test
     public void reittiaEiLoydy() {
         testikartta.asetaMaali(3, 3);
-        d.alusta(testikartta);
-        assertFalse(d.haku());
+        jps.alusta(testikartta);
+        assertFalse(jps.haku());
     }
     @Test
     public void polkuKunEiReittia() {
         testikartta.asetaMaali(3, 3);
-        d.alusta(testikartta);
-        boolean haku = d.haku();
+        jps.alusta(testikartta);
+        boolean haku = jps.haku();
         assertFalse(haku);
-        Solmu s = d.loppuSolmu();
+        Solmu s = jps.loppuSolmu();
         try {
-            d.luoPolku(s);
+            jps.luoPolku(s);
         } catch (Exception e) {
             // null
         }
-        assertNull(d.getReitti());
+        assertNull(jps.getReitti());
     }
 }

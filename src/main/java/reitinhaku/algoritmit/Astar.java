@@ -1,9 +1,8 @@
 package reitinhaku.algoritmit;
 
-import java.util.PriorityQueue;
-
-import reitinhaku.logiikka.Kartta;
+import reitinhaku.kartta.Kartta;
 import reitinhaku.tietorakenteet.Keko;
+import reitinhaku.tietorakenteet.Lista;
 
 /**
  * Lyhyimmän reitin haku A*-algoritmillä.
@@ -16,9 +15,12 @@ public class Astar {
     private boolean[][] vierailtu;
     private char[][] taulukko;
     private int vieraillut;
-    private double pituus;
+    private float pituus;
     private String reitti;
-    private Keko jono;
+    private Keko keko;
+    private float[][] etaisyys;
+    private float suuri = 999999;
+    private Solmu loppuSolmu;
 
     /**
      * Alustaa tarvittavat arvot algoritmin suorittamiseksi.
@@ -32,8 +34,19 @@ public class Astar {
         this.alku = new Koordinaatti(kartta.getAlkuX(), kartta.getAlkuY());
         this.maali = new Koordinaatti(kartta.getMaaliX(), kartta.getMaaliY());
         this.vierailtu = new boolean[taulukko.length][taulukko[0].length];
-        jono = new Keko(taulukko.length * taulukko[0].length, new Koordinaatti(maali));
-        jono.lisaa(new Koordinaatti(alku.getX(), alku.getY()));
+        keko = new Keko(taulukko.length * taulukko[0].length, new Solmu(maali));
+        Solmu s = new Solmu(alku, 0, null);
+        keko.lisaa(s);
+        etaisyys = new float[taulukko.length][taulukko[0].length];
+
+        for (int i = 0; i < taulukko.length; i++) {
+            for (int j = 0; j < taulukko[0].length; j++) {
+                etaisyys[i][j] = suuri;
+            }
+        }
+        etaisyys[kartta.getAlkuX()][kartta.getAlkuY()] = 0;
+        kartta.piirraAlku(alku.getX(), alku.getY());
+        kartta.piirraMaali(maali.getX(), maali.getY());
     }
 
     /**
@@ -42,110 +55,115 @@ public class Astar {
      * @return boolean Palauttaa arvon löytyikö reittiä vai ei.
      */
     public boolean haku() {
-
-        while (!jono.tyhja()) {
-            Koordinaatti k = jono.nouda();
+        while (!keko.tyhja()) {
+            Solmu n = keko.nouda();
+            int x = n.getKoordinaatti().getX();
+            int y = n.getKoordinaatti().getY();
+            if (vierailtu[x][y]) {
+                continue;
+            }
+            if (!kartta.rajojenSisalla(x, y)) {
+                continue;
+            }
             vieraillut++;
-            int x = k.getX();
-            int y = k.getY();
-            this.reitti = kirjaaReitti(k);
-            if (x == maali.getX() && y == maali.getY()) {
+            vierailtu[x][y] = true;
 
-                this.pituus = k.getReitinPituus();
+            if (x == maali.getX() && y == maali.getY()) {
+                this.loppuSolmu = n;
                 return true;
             }
+            tarkistaNaapurit(n);
 
-            for (Koordinaatti naapuri : k.naapurit()) {
-                if (kartta.rajojenSisalla(naapuri)) {
-                    tarkistaNaapuri(naapuri, k);
-                }
-            }
         }
+        kartta.tulosta(alku + "Astar ei reittiä" + maali);
         return false;
     }
 
-    public void tarkistaNaapuri(Koordinaatti naapuri, Koordinaatti n) {
-        int nx = naapuri.getX();
-        int ny = naapuri.getY();
-        if (vierailtu[nx][ny]) {
-            return;
+    /**
+     * Käy läpi annetun Solmun naapuri solmut ja lisää ne tarvittaessa
+     * tarkasteltavien solmujen kekoon.
+     * 
+     * @param n
+     */
+    public void tarkistaNaapurit(Solmu n) {
+        for (int x = -1; x <= 1; x++) {
+            for (int y = -1; y <= 1; y++) {
+                if (x == 0 && y == 0) {
+                    continue;
+                }
+                int uusiX = n.getKoordinaatti().getX() + x;
+                int uusiY = n.getKoordinaatti().getY() + y;
+                if (!kartta.rajojenSisalla(uusiX, uusiY)) {
+                    continue;
+                }
+                float kuljettu;
+                int absX = uusiX > 0 ? uusiX : -uusiX;
+                int absY = uusiY > 0 ? uusiY : -uusiY;
+                if (absX + absY == 1) {
+                    kuljettu = etaisyys[n.getKoordinaatti().getX()][n.getKoordinaatti().getY()] + 1;
+                } else {
+                    kuljettu = (float) (etaisyys[n.getKoordinaatti().getX()][n.getKoordinaatti().getY()] + 1.414);
+                }
+                if (kuljettu < etaisyys[uusiX][uusiY]) {
+                    etaisyys[uusiX][uusiY] = kuljettu;
+                    Koordinaatti k = new Koordinaatti(uusiX, uusiY);
+                    Solmu s = new Solmu(k, kuljettu + kartta.linnuntie(k, maali), n);
+                    keko.lisaa(s);
+                }
+            }
         }
-        vierailtu[nx][ny] = true;
-        char ch = taulukko[nx][ny];
-        if (ch == '@' || ch == 'O') { // nyt vain out of boundsit rajana
-            return;
-        }
-        jono.lisaa(new Koordinaatti(nx, ny, n, (n.getReitinPituus() + kartta.linnuntie(naapuri, n))));
+
     }
 
     /**
-     * Ylläpitää Koordinaatin "reitti"-arvoa. Metodi kirjaa tarvittavan siirtymän
-     * Koordinaatin vanhemmasta.
+     * Jos reitti maaliin on löytynyt, luoPolku tallentaa ja piirtää kuljetun reitin
+     * kartalle.
      * 
-     * @param n Koordinaatti, jonka reitti päivitetään.
-     * @return String Palauttaa päivitetyn reitin.
+     * @param s
      */
-    public String kirjaaReitti(Koordinaatti n) {
-        Koordinaatti v;
-        int nx;
-        int ny;
-        int vx;
-        int vy;
-        if (n.getVanhempi() == null) {
-            return "";
-        } else {
-            v = n.getVanhempi();
-            nx = n.getX();
-            ny = n.getY();
-            vx = v.getX();
-            vy = v.getY();
+    public void luoPolku(Solmu s) {
+        Lista polku = new Lista(500);
+        polku.lisaa(s);
+        this.reitti = taulukko[s.getKoordinaatti().getX()][s.getKoordinaatti().getY()] + "";
+        while (s.getVanhempi() != null) {
+            this.reitti = reitti + " " + taulukko[s.getKoordinaatti().getX()][s.getKoordinaatti().getY()];
+            polku.lisaa(s.getVanhempi());
+            kartta.piirraAStar(s.getKoordinaatti().getX(), s.getKoordinaatti().getY(),
+                    s.getVanhempi().getKoordinaatti().getX(), s.getVanhempi().getKoordinaatti().getY());
+            s = s.getVanhempi();
         }
-        if (nx == vx) {
-            if (ny < vy) {
-                return reitti + "V ";
-            }
-            if (ny > vy) {
-                return reitti + "O ";
-            }
-        }
-
-        if (nx < vx) {
-            if (ny > vy) {
-                return reitti + "YO ";
-            }
-            if (ny < vy) {
-                return reitti + "YV ";
-            }
-        }
-        if (nx > vx) {
-            if (ny < vy) {
-                return reitti + "AV ";
-            }
-            if (ny > vy) {
-                return reitti + "AO ";
-            }
-        }
-
-        if (nx > vx) {
-            return reitti + "A ";
-        }
-        if (nx < vx) {
-            return reitti + "Y ";
-        }
-
-        return reitti;
-
     }
 
+    /**
+     * @return String
+     */
     public String getReitti() {
         return this.reitti;
     }
 
-    public double getPituus() {
+    /**
+     * @return float
+     */
+    public float getPituus() {
         return this.pituus;
     }
 
+    /**
+     * @return int
+     */
     public int getVieraillut() {
         return this.vieraillut;
+    }
+
+    /**
+     * LoppuSolmu on solmu joka on sama kuin maali, jos reitti on löydetty.
+     * 
+     * @return Solmu
+     */
+    public Solmu loppuSolmu() {
+        if (this.loppuSolmu != null) {
+            return loppuSolmu;
+        }
+        return null;
     }
 }

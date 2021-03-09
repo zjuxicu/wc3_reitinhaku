@@ -4,7 +4,7 @@ import java.util.Scanner;
 import java.io.File;
 
 import reitinhaku.algoritmit.Koordinaatti;
-import reitinhaku.logiikka.*;
+import reitinhaku.kartta.*;
 
 public class Kayttoliittyma {
 
@@ -35,30 +35,24 @@ public class Kayttoliittyma {
             System.out.println("Valitse haluamasi kartta:");
             kartannimi = lukija.nextLine();
         }
-        if(kartannimi.equals("satunnainen")){
+        if (kartannimi.equals("satunnainen")) {
             kartannimi = arvoKartta();
         }
         if (kartannimi.equals("testeri")) {
-            System.out.println("Monta kertaa haluat testata?"); 
+            System.out.println("Monta kertaa haluat testata?");
             int kerrat = lukija.nextInt();
             Tester testeri = new Tester(arvoKartta(), kerrat);
             System.exit(0);
         }
-        if(kartannimi.equals("aa")){ //käsintestaamisen nopeuttamista varten
-            kartannimi = "testi";
-            Kartta kartta = new Kartta(laturi.lataaKartta(kartannimi), kartannimi);
-            kartta.asetaLahto(0, 0);
-            kartta.asetaMaali(4, 4);
-            AlgoritminValitsija av = new AlgoritminValitsija(kartta);
-            System.exit(0);
-        }
+
         Kartta kartta = new Kartta(laturi.lataaKartta(kartannimi), kartannimi);
 
         System.out.println("Valitse haluamasi lähdön x-koordinaatti:  ");
         int xLahto = lukija.nextInt();
         System.out.println("Valitse haluamasi lähdön y-koordinaatti:  ");
         int yLahto = lukija.nextInt();
-        while (!kartta.asetaLahto(xLahto, yLahto)) {
+        while (!kartta.rajojenSisalla(xLahto, yLahto)) {
+            System.out.println("Lähtökoordinaatti ei ole saavutettavissa. Kokeile toisia arvoja.");
             System.out.println("Valitse haluamasi lähdön x-koordinaatti:  ");
             xLahto = lukija.nextInt();
             System.out.println("Valitse haluamasi lähdön y-koordinaatti:  ");
@@ -69,25 +63,19 @@ public class Kayttoliittyma {
         int xMaali = lukija.nextInt();
         System.out.println("Valitse haluamasi maalin y-koordinaatti:  ");
         int yMaali = lukija.nextInt();
-        while (!kartta.asetaMaali(xMaali, yMaali)) {
+        while (!kartta.rajojenSisalla(xMaali, yMaali)) {
+            System.out.println("Maalikoordinaatti ei ole saavutettavissa. Kokeile toisia arvoja.");
             System.out.println("Valitse haluamasi maalin x-koordinaatti:  ");
             xMaali = lukija.nextInt();
             System.out.println("Valitse haluamasi maalin y-koordinaatti:  ");
             yMaali = lukija.nextInt();
         }
-
         System.out.println("--------------------------------------------------------------");
         System.out.println();
+        kartta.asetaLahto(xLahto, yLahto);
+        kartta.asetaMaali(xMaali, yMaali);
         Koordinaatti lahto = new Koordinaatti(xLahto, yLahto);
         Koordinaatti maali = new Koordinaatti(xMaali, yMaali);
-        if (!kartta.rajojenSisalla(lahto)) {
-            System.out.println("Lähtökoordinaatti ei ole kartan rajojen sisällä.");
-            System.exit(0);
-        }
-        if (!kartta.rajojenSisalla(maali)) {
-            System.out.println("Maalikoordinaatti ei ole kartan rajojen sisällä.");
-            System.exit(0);
-        }
 
         System.out.println("Haetaan reittiä kartasta " + kartannimi + " väliltä (" + xLahto + "," + yLahto + ") --> ("
                 + xMaali + "," + yMaali + ")");
@@ -100,19 +88,15 @@ public class Kayttoliittyma {
     }
 
     /**
-     * Tulostaa ohjeet ja tarjoaa muutamat esimerkkiarvot.
+     * Tulostaa ohjeet.
      */
     public void ohjeet() {
         System.out.println();
         System.out.println("Valitessasi karttaa, kirjoita kartannimi ilman .map-päätettä");
-        System.out.println("Toimivat arvot ovat esimerkiksi:");
-        System.out.println("thecrucible (400,250) -> (312,400)");
-        System.out.println("bootybay (96,55) -> (111,80)");
-        System.out.println("gardenofwar (86,134) -> (266,270)");
-        System.out.println("battleground (86,134) -> (432,225)");
         System.out.println("Kirjoita \"lista\", jos haluat listauksen kaikista kartoista.");
         System.out.println("Jos haluat ajaa suorituskykytestit, kirjoita \"testeri\"");
         System.out.println("Jos mikä tahansa kartta käy, kirjoita \"satunnainen\"");
+        System.out.println("Testerin avulla on myös helpoin kokeilla ohjelmaa");
         System.out.println();
     }
 

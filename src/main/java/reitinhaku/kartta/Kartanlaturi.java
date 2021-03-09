@@ -1,4 +1,4 @@
-package reitinhaku.kayttoliittyma;
+package reitinhaku.kartta;
 
 import java.io.InputStream;
 import java.util.Scanner;
@@ -45,8 +45,6 @@ public class Kartanlaturi {
             }
             lukija.close();
 
-            //System.out.println("Kartta löytyi!\nVasenta yläkulmaa vastaa 0,0 ja oikeaa alakulmaa " + (rivi - 1) + ","
-            //        + (sarake - 1));
         } catch (Exception e) {
             System.out.println("Ongelma karttaa ladatessa: " + e);
             System.exit(0);

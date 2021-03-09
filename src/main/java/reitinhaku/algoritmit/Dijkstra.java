@@ -1,7 +1,10 @@
 package reitinhaku.algoritmit;
 
-import reitinhaku.logiikka.Kartta;
+import java.util.Arrays;
+
+import reitinhaku.kartta.Kartta;
 import reitinhaku.tietorakenteet.Jono;
+import reitinhaku.tietorakenteet.Lista;
 
 /**
  * Lyhyimmän reitin haku Dijkstran algoritmillä.
@@ -12,12 +15,13 @@ public class Dijkstra {
     private Kartta kartta;
     private boolean[][] vierailtu;
     private char[][] taulukko;
-    private int korkeus;
-    private int leveys;
-    private double pituus;
+    private float pituus;
     private String reitti;
     private Jono jono;
     private int vieraillut;
+    private float[][] etaisyys;
+    private float suuri = 999999;
+    private Solmu loppuSolmu;
 
     /**
      * Alustaa tarvittavat arvot algoritmin suorittamiseksi.
@@ -27,16 +31,21 @@ public class Dijkstra {
     public void alusta(Kartta kartta) {
         this.kartta = kartta;
         this.taulukko = kartta.getTaulukko();
-        this.korkeus = taulukko.length;
-        this.leveys = taulukko[0].length;
-        this.vierailtu = new boolean[korkeus][leveys];
+        this.vierailtu = new boolean[taulukko.length][taulukko[0].length];
         this.alku = new Solmu(kartta.getAlkuX(), kartta.getAlkuY());
         this.maali = new Solmu(kartta.getMaaliX(), kartta.getMaaliY());
-        this.jono = new Jono(korkeus * leveys);
+        this.jono = new Jono(taulukko.length * taulukko[0].length + 1);
         jono.lisaa(alku);
         this.vieraillut = 0;
-        vierailtu[alku.getKoordinaatti().getX()][alku.getKoordinaatti().getY()] = true;
-
+        etaisyys = new float[taulukko.length][taulukko[0].length];
+        for (int i = 0; i < taulukko.length; i++) {
+            for (int j = 0; j < taulukko[0].length; j++) {
+                etaisyys[i][j] = suuri;
+            }
+        }
+        etaisyys[kartta.getAlkuX()][kartta.getAlkuY()] = 0;
+        kartta.piirraAlku(kartta.getAlkuX(), kartta.getAlkuY());
+        kartta.piirraMaali(kartta.getMaaliX(), kartta.getMaaliY());
     }
 
     /**
@@ -45,55 +54,114 @@ public class Dijkstra {
      * @return boolean Palauttaa arvon löytyikö reittiä vai ei.
      */
     public boolean haku() {
+
         while (!jono.tyhja()) {
             Solmu n = jono.poll();
-            vieraillut++;
             int x = n.getKoordinaatti().getX();
             int y = n.getKoordinaatti().getY();
-            char ch = taulukko[x][y];
-
-            if (ch == '@' || ch == 'O') { // nyt vain out of boundsit rajana
+            if (vierailtu[x][y]) {
+                continue;
+            }
+            vieraillut++;
+            vierailtu[x][y] = true;
+            if (!kartta.rajojenSisalla(x,y)) {
                 continue;
             }
             if (x == maali.getKoordinaatti().getX() && y == maali.getKoordinaatti().getY()) {
-                this.reitti = n.getKoordinaatti().getReitti();
-                pituus = n.laskeReitinPituus(reitti);
+                this.loppuSolmu = n;
                 return true;
             }
-            for (Koordinaatti naapuri : n.getKoordinaatti().naapurit()) {
-                tarkistaNaapuri(naapuri);
+            for (Solmu naapuri : n.naapurit()) {
+                if (kartta.rajojenSisalla(naapuri.getKoordinaatti())) {
+                    tarkistaNaapuri(naapuri, n);
+                }
             }
         }
+        kartta.tulosta(alku + "Dijkstra ei reittiä" + maali);
         return false;
     }
 
     /**
-     * tarkistaNaapuri tarkistaa onhan annettu parametri kartan rajojen sisäpuolella
-     * ja lisää sen tarvittaessa käsiteltävien solmujen tietorakenteeseen.
+     * Käy läpi annetun Solmun naapuri solmut ja lisää ne tarvittaessa
+     * tarkasteltavien solmujen jonoon.
      * 
-     * @param naapuri Käsiteltävä solmu.
+     * @param naapuri
+     * @param n
      */
-    public void tarkistaNaapuri(Koordinaatti naapuri) {
-        if (kartta.rajojenSisalla(naapuri)) {
-            int nx = naapuri.getX();
-            int ny = naapuri.getY();
-            if (vierailtu[nx][ny]) {
-                return;
-            }
-            jono.lisaa(new Solmu(naapuri));
-            vierailtu[nx][ny] = true;
+    public void tarkistaNaapuri(Solmu naapuri, Solmu n) {
+        int nx = naapuri.getKoordinaatti().getX();
+        int ny = naapuri.getKoordinaatti().getY();
+        if (vierailtu[nx][ny]) {
+            return;
+        }
+
+        int liikeX = nx - n.getKoordinaatti().getX();
+        int liikeY = ny - n.getKoordinaatti().getY();
+        float kuljettu = 0;
+        if (liikeX == 0 || liikeY == 0) {
+            kuljettu = n.getLahdosta() + 1;
+        } else {
+            kuljettu = (float) (n.getLahdosta() + 1.414);
+        }
+
+        if (kuljettu < etaisyys[nx][ny]) {
+            etaisyys[nx][ny] = kuljettu;
+            Koordinaatti k = new Koordinaatti(nx, ny);
+            Solmu s = new Solmu(k, kuljettu, n);
+            jono.lisaa(s);
         }
     }
 
+    /**
+     * @return String
+     */
     public String getReitti() {
         return this.reitti;
     }
 
-    public double getPituus() {
+    /**
+     * @return float
+     */
+    public float getPituus() {
         return this.pituus;
     }
 
+    /**
+     * @return int
+     */
     public int getVieraillut() {
         return this.vieraillut;
+    }
+
+    /**
+     * Jos reitti maaliin on löytynyt, luoPolku tallentaa ja piirtää kuljetun reitin
+     * kartalle.
+     * 
+     * @param s
+     */
+    public void luoPolku(Solmu s) {
+        Lista polku = new Lista(500);
+        polku.lisaa(s);
+        this.reitti = taulukko[s.getKoordinaatti().getX()][s.getKoordinaatti().getY()] + "";
+        while (s.getVanhempi() != null) {
+            this.reitti = reitti + " " + taulukko[s.getKoordinaatti().getX()][s.getKoordinaatti().getY()];
+            polku.lisaa(s.getVanhempi());
+            kartta.piirraDijkstra(s.getKoordinaatti().getX(), s.getKoordinaatti().getY(),
+                    s.getVanhempi().getKoordinaatti().getX(), s.getVanhempi().getKoordinaatti().getY());
+            s = s.getVanhempi();
+        }
+
+    }
+
+    /**
+     * LoppuSolmu on solmu joka on sama kuin maali, jos reitti on löydetty.
+     * 
+     * @return Solmu
+     */
+    public Solmu loppuSolmu() {
+        if (this.loppuSolmu != null) {
+            return loppuSolmu;
+        }
+        return null;
     }
 }

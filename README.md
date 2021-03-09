@@ -34,7 +34,6 @@ Listauksen saatavilla olevista kartoista saat kirjoittamalla
 lista
 ```
 
-
 Halutessasi satunnaisen kartan, kirjoita
 ```
 satunnainen

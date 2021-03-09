@@ -9,6 +9,7 @@ public class Jono {
 
     private Solmu[] sl;
     private int lisatty;
+    private int koko;
     private int poistettu;
 
     /**
@@ -19,8 +20,9 @@ public class Jono {
      */
     public Jono(int n) {
         this.sl = new Solmu[n];
-        this.poistettu = 0;
+        this.koko = n;
         this.lisatty = 0;
+        this.poistettu = 0;
     }
 
     /**
@@ -29,7 +31,21 @@ public class Jono {
      * @param s
      */
     public void lisaa(Solmu s) {
+        if (lisatty + 1 > koko) {
+            kasvata();
+        }
         sl[lisatty++] = s;
+    }
+
+    /**
+     * Tarvittaessa jonon kokoa voidaan kasvattaa.
+     */
+    public void kasvata() {
+        Solmu[] jono = new Solmu[koko * 2];
+        for (int i = 0; i < sl.length; i++) {
+            jono[i] = sl[i];
+        }
+        this.sl = jono;
     }
 
     /**
@@ -52,4 +68,7 @@ public class Jono {
         return lisatty == poistettu;
     }
 
+    public int koko() {
+        return sl.length;
+    }
 }
