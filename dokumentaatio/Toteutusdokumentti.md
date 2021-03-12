@@ -73,11 +73,12 @@ Aikaa ohjelman suorittamiseen kului yhteensä 21min 8sek.
 |JPS      |   115.128     | 0.001597    |
 
 Vaikka aika- ja tilavaativuudet ovat algoritmeillä samat, pahin mahdollinen tapaus tulee vastaan
-A*- ja JPS-algoritmeillä harvoin. Mitä hankalammaksi kartta menee, A* hidastuu huomattavasti ja 
+A*- ja JPS-algoritmeillä erittäin harvoin. Mitä hankalammaksi kartta menee, A* hidastuu huomattavasti ja 
 lähestyy jo Dijkstran mittaustuloksia. 
 
 ## Työn mahdolliset puutteet ja parannusehdotukset
 
+JPS ei aina löydä lyhintä reittiä. Dijkstra ja A* palauttavat aina yhtä pitkän reitin, pieni pyöristysvirhe on mahdollinen.
 Dijkstran aikavaativuutta on mahdollisuus parantaa.
 
 Warcraft III pelissä on myös lentäviä hahmoja jotka pääsevät esteiden yli, sekä eri liikkumisnopeuden omaavia hahmoja. Nyt ohjelma selvittää vain lyhyimmän reitin ilman nopeuksia.

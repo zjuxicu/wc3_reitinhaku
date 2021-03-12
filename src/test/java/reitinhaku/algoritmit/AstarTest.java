@@ -68,4 +68,5 @@ public class AstarTest {
         }
         assertNull(a.getReitti());
     }
+
 }

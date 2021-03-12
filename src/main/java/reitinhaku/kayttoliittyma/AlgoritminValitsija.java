@@ -50,9 +50,10 @@ public class AlgoritminValitsija {
         if (onnistui) {
             Solmu s = jps.loppuSolmu();
             jps.luoPolku(s);
-            kartta.tulosta(kartta.getAlkuX() + "-"+kartta.getAlkuY() + "JPS" + kartta.getAlkuX() + "-"+kartta.getAlkuY());
+            kartta.tulosta(kartta.getAlkuX() + "-"+kartta.getAlkuY() + "JPS" + kartta.getMaaliX() + "-"+kartta.getMaaliY());
             System.out.println("Päästiin maaliin!");
-            System.out.println("Hyppypisteet: " + jps.getReitti());
+            System.out.println("Hyppypisteet maalista alkuun: ");
+            System.out.println(jps.getPolku());
             System.out.println("Reitin pituus: " + jps.getPituus());
             System.out.println("JPS kävi läpi haun aikana " + jps.getVieraillut() + " solmua.");
 
@@ -76,9 +77,10 @@ public class AlgoritminValitsija {
         if (onnistui) {
             Solmu s = d.loppuSolmu();
             d.luoPolku(s);
-            kartta.tulosta(kartta.getAlkuX() + "-"+kartta.getAlkuY() + "Dijkstra" + kartta.getAlkuX() + "-"+kartta.getAlkuY());
+            kartta.tulosta(kartta.getAlkuX() + "-"+kartta.getAlkuY() + "Dijkstra" + kartta.getMaaliX() + "-"+kartta.getMaaliY());
             System.out.println("Päästiin maaliin!");
-            System.out.println("Reitti: " + d.getReitti());
+            System.out.println("Solmut maalista alkuun: ");
+            System.out.println(d.getPolku());
             System.out.println("Reitin pituus: " + s.getLahdosta());
             System.out.println("Dijkstra kävi läpi haun aikana " + d.getVieraillut() + " solmua.");
 
@@ -102,9 +104,10 @@ public class AlgoritminValitsija {
         if (onnistui) {
             Solmu s = a.loppuSolmu();
             a.luoPolku(s);
-            kartta.tulosta(kartta.getAlkuX() + "-"+kartta.getAlkuY() + "Astar" + kartta.getAlkuX() + "-"+kartta.getAlkuY());
+            kartta.tulosta(kartta.getAlkuX() + "-"+kartta.getAlkuY() + "Astar" + kartta.getMaaliX() + "-"+kartta.getMaaliY());
             System.out.println("Päästiin maaliin!");
-            System.out.println("Reitti: " + a.getReitti());
+            System.out.println("Solmut maalista alkuun: ");
+            System.out.println(a.getPolku());
             System.out.println("Reitin pituus: " + s.getLahdosta());
             System.out.println("A* kävi läpi haun aikana " + a.getVieraillut() + " solmua.");
 

@@ -39,6 +39,8 @@ public class Kayttoliittyma {
             kartannimi = arvoKartta();
         }
         if (kartannimi.equals("testeri")) {
+            //System.out.println("Valitse haluamasi kartta:");
+            //kartannimi = lukija.nextLine();
             System.out.println("Monta kertaa haluat testata?");
             int kerrat = lukija.nextInt();
             Tester testeri = new Tester(arvoKartta(), kerrat);

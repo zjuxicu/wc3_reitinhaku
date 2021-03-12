@@ -21,6 +21,7 @@ public class Astar {
     private float[][] etaisyys;
     private float suuri = 999999;
     private Solmu loppuSolmu;
+    private Lista polku;
 
     /**
      * Alustaa tarvittavat arvot algoritmin suorittamiseksi.
@@ -91,14 +92,19 @@ public class Astar {
                 if (x == 0 && y == 0) {
                     continue;
                 }
-                int uusiX = n.getKoordinaatti().getX() + x;
-                int uusiY = n.getKoordinaatti().getY() + y;
+                int nX = n.getKoordinaatti().getX();
+                int nY = n.getKoordinaatti().getY();
+                int uusiX = nX + x;
+                int uusiY = nY + y;
                 if (!kartta.rajojenSisalla(uusiX, uusiY)) {
                     continue;
                 }
                 float kuljettu;
-                int absX = uusiX > 0 ? uusiX : -uusiX;
-                int absY = uusiY > 0 ? uusiY : -uusiY;
+                int liikeX = nX-uusiX;
+                int liikeY = nY-uusiY;
+                int absX = liikeX > 0 ? liikeX : -liikeX;
+                int absY = liikeY > 0 ? liikeY : -liikeY;
+                
                 if (absX + absY == 1) {
                     kuljettu = etaisyys[n.getKoordinaatti().getX()][n.getKoordinaatti().getY()] + 1;
                 } else {
@@ -122,7 +128,7 @@ public class Astar {
      * @param s
      */
     public void luoPolku(Solmu s) {
-        Lista polku = new Lista(500);
+        polku = new Lista(500);
         polku.lisaa(s);
         this.reitti = taulukko[s.getKoordinaatti().getX()][s.getKoordinaatti().getY()] + "";
         while (s.getVanhempi() != null) {
@@ -132,6 +138,10 @@ public class Astar {
                     s.getVanhempi().getKoordinaatti().getX(), s.getVanhempi().getKoordinaatti().getY());
             s = s.getVanhempi();
         }
+    }
+
+    public Lista getPolku() {
+        return this.polku;
     }
 
     /**

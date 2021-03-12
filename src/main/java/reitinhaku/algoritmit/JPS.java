@@ -3,7 +3,6 @@ package reitinhaku.algoritmit;
 /**
  * @referenced JPS by ClintFMullins / https://github.com/ClintFMullins
  */
-import java.util.Arrays;
 
 import reitinhaku.kartta.*;
 import reitinhaku.tietorakenteet.Keko;
@@ -24,6 +23,7 @@ public class JPS {
     private float[][] etaisyys;
     private float suuri = 999999;
     private Solmu loppuSolmu;
+    private Lista polku;
 
     /**
      * Alustaa tarvittavat arvot algoritmin suorittamiseksi.
@@ -182,8 +182,21 @@ public class JPS {
         if (vanhempi != null) {
             int vx = vanhempi.getKoordinaatti().getX();
             int vy = vanhempi.getKoordinaatti().getY();
-            int dx = (x - vx) / Math.max(Math.abs(x - vx), 1);
-            int dy = (y - vy) / Math.max(Math.abs(y - vy), 1);
+            int liikeX = x - vx;
+            int liikeY = y - vy;
+            int absX = liikeX > 0 ? liikeX : -liikeX;
+            int absY = liikeY > 0 ? liikeY : -liikeY;
+            int apuX = 1;
+            int apuY = 1;
+            if (absX > 1) {
+                apuX = absX;
+            }
+            if (absY > 1) {
+                apuY = absY;
+            }
+            int dx = (x - vx) / apuX;
+            int dy = (y - vy) / apuY;
+    
             if (dx != 0 && dy != 0) {
                 if (kartta.rajojenSisalla(x, y + dy)) {
                     hypattavat[0] = (new int[] { x, y + dy });
@@ -287,17 +300,21 @@ public class JPS {
      * @param s
      */
     public void luoPolku(Solmu s) {
-        Lista polku = new Lista(500);
+        polku = new Lista(500);
         polku.lisaa(s);
         this.reitti = taulukko[s.getKoordinaatti().getX()][s.getKoordinaatti().getY()] + "";
         while (s.getVanhempi() != null) {
-            this.reitti = reitti + " " + taulukko[s.getKoordinaatti().getX()][s.getKoordinaatti().getY()];
+            this.reitti = reitti + s;
             this.pituus += kartta.linnuntie(s.getKoordinaatti(), s.getVanhempi().getKoordinaatti());
             polku.lisaa(s.getVanhempi());
             kartta.piirraJPS(s.getKoordinaatti().getX(), s.getKoordinaatti().getY(),
                     s.getVanhempi().getKoordinaatti().getX(), s.getVanhempi().getKoordinaatti().getY());
             s = s.getVanhempi();
         }
+    }
+
+    public Lista getPolku() {
+        return this.polku;
     }
 
     /**

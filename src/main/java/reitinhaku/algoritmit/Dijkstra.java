@@ -22,6 +22,7 @@ public class Dijkstra {
     private float[][] etaisyys;
     private float suuri = 999999;
     private Solmu loppuSolmu;
+    private Lista polku;
 
     /**
      * Alustaa tarvittavat arvot algoritmin suorittamiseksi.
@@ -111,7 +112,9 @@ public class Dijkstra {
             jono.lisaa(s);
         }
     }
-
+    public Lista getPolku() {
+        return this.polku;
+    }
     /**
      * @return String
      */
@@ -140,7 +143,7 @@ public class Dijkstra {
      * @param s
      */
     public void luoPolku(Solmu s) {
-        Lista polku = new Lista(500);
+        polku = new Lista(500);
         polku.lisaa(s);
         this.reitti = taulukko[s.getKoordinaatti().getX()][s.getKoordinaatti().getY()] + "";
         while (s.getVanhempi() != null) {
